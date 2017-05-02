@@ -8,6 +8,7 @@ setwd("C:/Users/Jim/Documents/Projects/Talk/SFS 2017/SFS2017")
 library(plyr)
 library(dplyr)
 library(ggplot2)
+library(chron)
 
 #set ggplot theme
 theme_set(theme_bw(20))
@@ -80,14 +81,62 @@ chla <- read.csv(file = "C:/Users/Jim/Documents/Projects/Iceland/Epilithon/Chla.
 epi <- read.csv(file = "C:/Users/Jim/Documents/Projects/Iceland/Epilithon/IcelandEPI.csv", T)
 
 chla.mod = chla[which(chla$Stream == "ST6" | chla$Stream == "ST9" | chla$Stream == "ST14" | chla$Stream == "Hver"),]
-
+epi.mod = epi[which(epi$Stream == "ST6" | epi$Stream == "ST9" | epi$Stream == "ST14" | epi$Stream == "Hver"),]
 
 Pd <- c(rep("01-07-2011", 10), rep("01-08-2011",15), rep("01-09-2011", 20), rep("01-10-2011", 20), rep("01-01-2012", 10),
         rep("01-02-2012", 20), rep("01-03-2012", 20), rep("01-04-2012", 20), rep("01-05-2012",20), rep("01-07-2012",20))
 
-Pd = as.POSIXct(Pd, format = "%d-%m-%Y")
-chla.mod = cbind(chla.mod, Pd)
+chla.Pd = as.POSIXct(Pd, format = "%d-%m-%Y")
 
+chla.mod$temp_k = chla.mod$Temp+273.15
+chla.mod = cbind(chla.mod, chla.Pd)
+
+colnames(chla.mod) = c("Date", "Stream", "Temp", "chla", "Pd")
+
+Pd = c(rep("01-10-2011", 20), rep("01-02-2012", 20), rep("01-05-2012", 20), rep("01-07-2012", 20))
+epi.Pd = as.POSIXct(Pd, format = "%d-%m-%Y")
+
+epi.mod = cbind(epi.mod, epi.Pd)
+
+theme_set(theme_classic())
+ggplot(chla.mod, aes(x = Temp, y = chla)) + geom_point(aes(colour = Stream)) +
+  stat_smooth(aes(x = Temp, y = chla), method = "lm", se = F)
+
+
+#Time to import Dan's data and convert it to the correct form
+
+options(stringsAsFactors = F)
+
+warming_data = read.csv(file = "C:/Users/Jim/Documents/Projects/Iceland/Bug Samples/Secondary Production/Final data files/Dan_abundance.csv", T, check.names = F)
+
+#converting the dates to POSIX
+warming_data$Pd = as.POSIXct(warming_data$DATE, format = "%d-%b-%Y", tz = "UTC")
+
+#subsetting the dates to relevant frame
+
+warming_sub = subset(warming_data, Pd >= as.POSIXct('2010-10-25') & Pd <= as.POSIXct('2011-10-25'))
+#warming_sub = as.data.frame(warming_sub,)
+#changing the stream names
+
+st7.fix=which(warming_sub$STREAM == "7")
+warming_sub[st7.fix, "STREAM"] <- "ST7"
+
+#pare down the columns to relate to similar structure on 
+
+warming_sub = warming_sub[,c(5,6,3,162,11,12,16:160)]
+
+large_spp = which(warming_sub[,146] > 0) #checking what the species that is sooo huge
+
+year = as.numeric(as.character(years(chron(dates = as.character(warming_sub$Pd)))))
+month = as.numeric(months(chron(dates = as.character(warming_sub$Pd))))
+day = as.numeric(days(chron(dates = as.character(warming_sub$Pd))))
+
+JULIAN = julian(month, day, year, origin = c(month = 01, day = 01, year = 2010))
+
+
+#########################
+
+#maxlength = warming_sub[, (colSums(warming_sub == 0) < (dim(warming_sub)[1]))]
 
 #merging the full datetime file 
 #mylist <- list(tempHV, datetime)
