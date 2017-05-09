@@ -4,6 +4,11 @@
 
 setwd("C:/Users/Jim/Documents/Projects/Talk/SFS 2017/SFS2017")
 
+#set options
+
+options(stringsAsFactors = F)
+options(max.print = 1000000)
+
 #load required packages
 library(plyr)
 library(dplyr)
@@ -186,8 +191,6 @@ ggplot(chla.mod, aes(x = Temp, y = chla)) + geom_point(aes(colour = Stream)) +
 
 #Time to import Dan's data and convert it to the correct form
 
-options(stringsAsFactors = F)
-
 warming_data = read.csv(file = "C:/Users/Jim/Documents/Projects/Iceland/Bug Samples/Secondary Production/Final data files/Dan_abundance.csv", T, check.names = F)
 
 #converting the dates to POSIX
@@ -221,7 +224,6 @@ JULIAN = julian(month, day, year, origin = c(month = 01, day = 01, year = 2010))
 source("C:/Users/Jim/Documents/Projects/Iceland/Bug Samples/Secondary Production/Secondary Production R code suite/frac_merge/frac_merge_function.txt")
 
 ## Load in the full file of sample counts ##
-options(max.print = 10000000)
 
 bugs_fin <- read.table("C:/Users/Jim/Documents/Projects/Iceland/Bug Samples/Secondary Production/Final data files/SamplesFull_fin.txt", header = T, sep = "\t", quote = "", strip.white = T, check.names = F)
 bugs_fin = bugs_fin[,c(1:47)]
@@ -232,12 +234,17 @@ hengill_merge <- read.table(file = './hengill_merged.txt', header= T, sep = "\t"
 
 #str(hengill_merge)
 
-hver_bugs = hengill_merge[which(hengill_merge$SITE == "Hver"),]
 st9_bugs = hengill_merge[which(hengill_merge$SITE == "ST9"),]
 st6_bugs = hengill_merge[which(hengill_merge$SITE == "ST6"),]
 st14_bugs = hengill_merge[which(hengill_merge$SITE == "ST14"),]
 
 unique(hver_bugs$TAXON)
+
+
+
+
+
+
 unique(st9_bugs$TAXON)
 unique(st6_bugs$TAXON)
 unique(st14_bugs$TAXON)
