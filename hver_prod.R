@@ -67,6 +67,6 @@ hv_temp <- temp_light.m[,1:2]
   
 colnames(tax) = c("TAXON", 	"METHOD", 	"LM.a", "LM.b",	"LM.p.ash",	"g.a",	"g.b",	"g.c",	"g.d",	"min.cpi",	"max.cpi",	"num.size.classes",	"p.b",	"Growth.equation", 	"min.growth",	"notes")
 
-hver.out = wrapper.site.yr(DATA = hver_bugs, site = "Hver", habitat = "ALL", TEMP.COB = 
+hver.out = wrapper.site.yr(DATA = hver_bugs, site = "Hver", habitat = "ALL", TEMP.COB = hv_temp,
                            TAXA = tax, boot.num = 50)
 names(hver.out)

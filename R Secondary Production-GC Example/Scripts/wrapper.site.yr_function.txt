@@ -33,7 +33,7 @@
       print("Error: the number of temperatures does not match the number of temperature-correction factors")
     }
     else if (habitat == "COBBLE" & num.intervals != length(TEMP.COB)){
-      print("Error: the number of temperatures does not match the number of intervals")
+      print("Error: the number of temperatures does not match the number of intervals. WTF")
       print(get.dates(DATA=DATA, site=site, habitat=habitat, first.date=first.date, last.date=last.date))
     }
     else if (habitat == "DEPOSITIONAL" & num.intervals != length(TEMP.DEP)){
@@ -89,6 +89,7 @@
       (habitat == "TALUS.CLIFF" & (num.intervals != length(TEMP.TAL) | length(TEMP.TAL) != length(temp.corr.igr.tal))) | 
       (habitat == "ALL" & (num.intervals.cob != length(TEMP.COB) | num.intervals.dep != length(TEMP.DEP) | num.intervals.tal != length(TEMP.TAL) | 
         length(TEMP.COB) != length(temp.corr.igr.cob) | length(TEMP.DEP) != length(temp.corr.igr.dep) | length(TEMP.TAL) != length(temp.corr.igr.tal)))){
+	print("Error: not running this shit for some reason")
     }
 
     #Otherwise, do run the "guts of the function:
@@ -272,5 +273,5 @@
     }
     list(Pboots.cob=Pboots.cob, Pboots.dep=Pboots.dep, Pboots.tal=Pboots.tal, Bboots.cob=Bboots.cob, Bboots.dep=Bboots.dep, Bboots.tal=Bboots.tal, Nboots.cob=Nboots.cob, Nboots.dep=Nboots.dep, Nboots.tal=Nboots.tal)
     }
-  }
+ }
 

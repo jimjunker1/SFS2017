@@ -72,6 +72,10 @@ temp_light <- merge(temp_light, temp14_d[,2:3], by = "Pd", all = T)
 temp_light <- merge(temp_light, lighthr_d[,c(2:3)], by = "Pd", all = T)
 temp_light <- merge(temp_light, light.esthr_d[,c(2:3)], by = "Pd", all = T)
 
+#removign all the unnecessary files
+
+rm("datetime", "light", "light.est", "light.esthr_d", "lighthr_d", "temp", "temp14", "temp14_d", "temp6", "temp6_d", "temp9", "temp9_d", "temp7", "temp7_d", "tempHV", "tempHV_d")
+
 #subsetting the posix data
 
 temp_light11.12 <- subset(temp_light, Pd >= as.POSIXct('2011-06-01 00:00:00') & Pd <= as.POSIXct('2012-09-01 00:00:00'))

@@ -67,7 +67,7 @@
         int.N <- rbind(int.N, (int.N[1,] + int.N[(dim(int.N)[1]),])/2)	#Add a row to represent interval abundance for an additional, final interval (use the mean interval abundance of the first and last date to get the abundance for the last interval)
       }
       int.P <- matrix(0, length(t.int), length(sizes$mm))
-      if (taxon == "Midge 1" | "Midge 2"){
+      if (taxon == "Midge 1" | taxon == "Midge 2"){
         for (s in 1:length(sizes$mm)){
           for (d in 1:length(t.int)){
             if ((g.a-(g.b*log(sizes$mm[s]))+(g.c*TEMP[d])) > 0){
@@ -82,8 +82,8 @@
       else if (taxon == "Limnophora riparia"){
         for (s in 1:length(sizes$mm)){
           for (d in 1:length(t.int)){
-            if ((g.a + (g.b*log(sizes$AFDM[s]))+ g.c * TEMP[d]) > 0){
-              int.P[d,s] <- int.B[d,s]*t.int[d]*((g.a + g.b*log(sizes$AFDM[s]))+ (g.c * TEMP[d]))		#Calculate interval production (interval biomass * interval duration * growth rate for each size class on each date * temp correction factor for each date)
+            if ((g.a + (g.b*log(sizes$AFDM[s]))+ (g.c * TEMP[d])) > 0){
+              int.P[d,s] <- int.B[d,s]*t.int[d]*(g.a + (g.b*log(sizes$AFDM[s]))+ (g.c * TEMP[d]))		#Calculate interval production (interval biomass * interval duration * growth rate for each size class on each date * temp correction factor for each date)
             }
             else {
               int.P[d,s] <- int.B[d,s]*t.int[d]*min.growth	#Calculate interval production (interval biomass * interval duration * minimum growth rate if growth equation gives a zero or negative value)
@@ -94,8 +94,8 @@
       else if (taxon == "Radix balthica"){
         for (s in 1:length(sizes$mm)){
           for (d in 1:length(t.int)){
-            if (((exp(g.a + g.b*TEMP[d] + g.c*log(sizes$AFDM[s]) + g.d*TEMP[d]*log(sizes$AFDM[s]))) > 0)){
-              int.P[d,s] <- int.B[d,s]*t.int[d]*(exp(g.a + g.b*TEMP[d] + g.c*log(sizes$AFDM[s]) + g.d*TEMP[d]*log(sizes$AFDM[s])))	#Calculate interval production (interval biomass * interval duration * growth rate for each size class on each date * temp correction factor for each date)
+            if (exp(g.a + (g.b*TEMP[d]) + (g.c*log(sizes$AFDM[s]))) > 0 |!is.na(exp(g.a + (g.b*TEMP[d]) + (g.c*log(sizes$AFDM[s]))))){
+              int.P[d,s] <- int.B[d,s]*t.int[d]*(exp(g.a + (g.b*TEMP[d]) + (g.c*log(sizes$AFDM[s]))))	#Calculate interval production (interval biomass * interval duration * growth rate for each size class on each date * temp correction factor for each date)
             }
             else {
               int.P[d,s] <- int.B[d,s]*t.int[d]*min.growth			#Calculate interval production (interval biomass * interval duration * minimum growth rate if growth equation gives a zero or negative value)
@@ -103,11 +103,23 @@
           }
         }
       }
-      else if (taxon == "Tub. 1" | "S. vittatum" | "Ostracod" | "Oribatid 1" | "Leech" | "Nematode" | "Sperchon sp." | "Lumb 3" | "Springtail" | "Clinocera"){
+      else if (taxon == "Tub. 1" | taxon == "S. vittatum" | taxon == "Ostracod" | taxon == "Oribatid 1" | taxon == "Leech" | taxon == "Nematode" | taxon == "Sperchon sp." | taxon == "Lumb 3" | taxon == "Springtail" | taxon =="Clinocera"){
         for (s in 1:length(sizes$mm)){
           for (d in 1:length(t.int)){
-            if ((g.a + g.b*TEMP[d] + g.c * sizes$AFDM[s]) > 0){
-              int.P[d,s] <- int.B[d,s]*t.int[d]*(g.a + g.b*TEMP[d] + g.c * sizes$AFDM[s])		#Calculate interval production (interval biomass * interval duration * growth rate for each size class on each date * temp correction factor for each date)
+            if ((g.a + (g.b*TEMP[d]) + (g.c * sizes$AFDM[s])) > 0){
+              int.P[d,s] <- int.B[d,s]*t.int[d]*(g.a + (g.b*TEMP[d]) + (g.c * sizes$AFDM[s]))		#Calculate interval production (interval biomass * interval duration * growth rate for each size class on each date * temp correction factor for each date)
+            }
+            else {
+              int.P[d,s] <- int.B[d,s]*t.int[d]*min.growth			#Calculate interval production (interval biomass * interval duration * minimum growth rate if growth equation gives a zero or negative value)
+            }
+          }
+        }
+      }
+            else if (taxon == "Nais spp."){
+        for (s in 1:length(sizes$mm)){
+          for (d in 1:length(t.int)){
+            if ((exp(g.a + (g.b*log(sizes$AFDM[s])) + (g.c * TEMP[d]))) > 0){
+              int.P[d,s] <- int.B[d,s]*t.int[d]*(exp(g.a + (g.b*log(sizes$AFDM[s])) + (g.c * TEMP[d])))		#Calculate interval production (interval biomass * interval duration * growth rate for each size class on each date * temp correction factor for each date)
             }
             else {
               int.P[d,s] <- int.B[d,s]*t.int[d]*min.growth			#Calculate interval production (interval biomass * interval duration * minimum growth rate if growth equation gives a zero or negative value)
@@ -144,7 +156,7 @@
           int.N <- rbind(int.N, (int.N[1,] + int.N[(dim(int.N)[1]),])/2)		#Add a row to represent interval abundance for an additional, final interval (use the mean interval abundance of the first and last date to get the abundance for the last interval)
         }
         int.P <- matrix(0, length(t.int), length(sizes$mm))
-   if (taxon == "Midge 1" | "Midge 2"){
+   if (taxon == "Midge 1" | taxon == "Midge 2"){
         for (s in 1:length(sizes$mm)){
           for (d in 1:length(t.int)){
             if ((g.a-(g.b*log(sizes$mm[s]))+(g.c*TEMP[d])) > 0){
@@ -160,7 +172,7 @@
         for (s in 1:length(sizes$mm)){
           for (d in 1:length(t.int)){
             if (((g.a + (g.b*log(sizes$AFDM[s]))+ (g.c * TEMP[d]))) > 0){
-              int.P[d,s] <- int.B[d,s]*t.int[d]*((g.a + g.b*log(sizes$AFDM[s]))+ (g.c * TEMP[d]))		#Calculate interval production (interval biomass * interval duration * growth rate for each size class on each date * temp correction factor for each date)
+              int.P[d,s] <- int.B[d,s]*t.int[d]*(g.a + (g.b*log(sizes$AFDM[s]))+ (g.c * TEMP[d]))		#Calculate interval production (interval biomass * interval duration * growth rate for each size class on each date * temp correction factor for each date)
             }
               else {
                 int.P[d,s] <- int.B[d,s]*t.int[d]*min.growth			#Calculate interval production (interval biomass * interval duration * minimum growth rate if growth equation gives a zero or negative value)
@@ -171,8 +183,8 @@
       else if (taxon == "Radix balthica"){
         for (s in 1:length(sizes$mm)){
           for (d in 1:length(t.int)){
-            if (((exp(g.a + g.b*TEMP[d] + g.c*log(sizes$AFDM[s]) + (g.d*TEMP[d]*log(sizes$AFDM[s])))) > 0)){
-              int.P[d,s] <- int.B[d,s]*t.int[d]*(exp(g.a + g.b*TEMP[d] + (g.c*log(sizes$AFDM[s])) + (g.d*TEMP[d]*log(sizes$AFDM[s]))))	#Calculate interval production (interval biomass * interval duration * growth rate for each size class on each date * temp correction factor for each date)
+            if (exp(g.a + (g.b*TEMP[d]) + (g.c*log(sizes$AFDM[s]))) > 0 | !is.na(exp(g.a + (g.b*TEMP[d]) + (g.c*log(sizes$AFDM[s]))))){
+              int.P[d,s] <- int.B[d,s]*t.int[d]*(exp(g.a + (g.b*TEMP[d]) + (g.c*log(sizes$AFDM[s]))))	#Calculate interval production (interval biomass * interval duration * growth rate for each size class on each date * temp correction factor for each date)
             }
               else {
                 int.P[d,s] <- int.B[d,s]*t.int[d]*min.growth		#Calculate interval production (interval biomass * interval duration * minimum growth rate if growth equation gives a zero or negative value)
@@ -180,13 +192,25 @@
             }
           }
         }
-       else if (taxon == "Tub. 1" | "S. vittatum" | "Ostracod" | "Oribatid 1" | "Leech" | "Nematode" | "Sperchon sp." | "Lumb 3" | "Springtail" | "Clinocera"){
+       else if (taxon == "Tub. 1" | taxon == "S. vittatum" | taxon == "Ostracod" | taxon == "Oribatid 1" | taxon == "Leech" | taxon == "Nematode" | taxon == "Sperchon sp." | taxon == "Lumb 3" | taxon == "Springtail" | taxon == "Clinocera"){
         for (s in 1:length(sizes$mm)){
           for (d in 1:length(t.int)){
             if ((g.a + g.b*TEMP[d] + g.c * sizes$AFDM[s]) > 0){
-              int.P[d,s] <- int.B[d,s]*t.int[d]*(g.a + g.b*TEMP[d] + g.c * sizes$AFDM[s])		#Calculate interval production (interval biomass * interval duration * growth rate for each size class on each date * temp correction factor for each date)
+              int.P[d,s] <- int.B[d,s]*t.int[d]*(g.a + (g.b*TEMP[d]) + (g.c * sizes$AFDM[s]))		#Calculate interval production (interval biomass * interval duration * growth rate for each size class on each date * temp correction factor for each date)
+            }
+                    else if (taxon == "Nais spp."){
+        for (s in 1:length(sizes$mm)){
+          for (d in 1:length(t.int)){
+            if ((exp(g.a + (g.b*log(sizes$AFDM[s])) + (g.c * TEMP[d]))) > 0){
+              int.P[d,s] <- int.B[d,s]*t.int[d]*(exp(g.a + (g.b*log(sizes$AFDM[s])) + (g.c * TEMP[d])))	#Calculate interval production (interval biomass * interval duration * growth rate for each size class on each date * temp correction factor for each date)
             }
               else {
+                int.P[d,s] <- int.B[d,s]*t.int[d]*min.growth		#Calculate interval production (interval biomass * interval duration * minimum growth rate if growth equation gives a zero or negative value)
+              }
+            }
+          }
+        }
+        else {
                 int.P[d,s] <- int.B[d,s]*t.int[d]*min.growth		#Calculate interval production (interval biomass * interval duration * minimum growth rate if growth equation gives a zero or negative value)
               }
             }
@@ -198,14 +222,14 @@
           int.B <- int.B[1:(dim(int.B)[1]-1),]		#Remove the row to representing interval biomass for the additional, final "wrap-around" interval before exiting the current bootstrap step
           int.N <- int.N[1:(dim(int.N)[1]-1),]		#Remove the row to representing interval abundance for the additional, final "wrap-around" interval before exiting the current bootstrap step
         }
-        Bintboots[b,] <- apply(int.B, 1, sum)		#Sum all size classes to calculate biomass for each interval
-        Nintboots[b,] <- apply(int.N, 1, sum)		#Sum all size classes to calculate abundance for each interval
-        Bdateboots[b,] <- apply(B, 1, sum)		#Calculate bootstrap matrix of biomass estimates on each sample date
-        Ndateboots[b,] <- apply(N, 1, sum)		#Calculate bootstrap matrix of abundance estimates on each sample date
+        Bintboots[b,] <- apply(int.B, 1, sum, na.rm = T)		#Sum all size classes to calculate biomass for each interval
+        Nintboots[b,] <- apply(int.N, 1, sum, na.rm = T)		#Sum all size classes to calculate abundance for each interval
+        Bdateboots[b,] <- apply(B, 1, sum, na.rm = T)		#Calculate bootstrap matrix of biomass estimates on each sample date
+        Ndateboots[b,] <- apply(N, 1, sum, na.rm = T)		#Calculate bootstrap matrix of abundance estimates on each sample date
       }
-      Pboots <- apply(Pintboots, 1, sum)			#Calculate bootstrap vector of annual production for all intervals combined
-      Bboots <- apply(Bintboots, 1, mean)			#Calculate bootstrap vector of annual biomass by taking the mean of all intervals
-      Nboots <- apply(Nintboots, 1, mean)			#Calculate bootstrap vector of annual abundance by taking the mean of all intervals
+      Pboots <- apply(Pintboots, 1, sum, na.rm = T)			#Calculate bootstrap vector of annual production for all intervals combined
+      Bboots <- apply(Bintboots, 1, mean, na.rm = T)			#Calculate bootstrap vector of annual biomass by taking the mean of all intervals
+      Nboots <- apply(Nintboots, 1, mean, na.rm = T)			#Calculate bootstrap vector of annual abundance by taking the mean of all intervals
       list(totdays=sum(t.int), Psampest=Psampest, Pbootest=c(Mean=mean(Pboots), quantile(Pboots, c(0.025, 0.5, 0.975))), Pboots=Pboots, Bboots=Bboots, Nboots=Nboots, julians=t, intdays=t.int, Pintsampest=Pintsampest, Pintboots=Pintboots, Bdatesampinfo=Bdatesampinfo, Ndatesampinfo=Ndatesampinfo, Bdateboots=Bdateboots, Ndateboots=Ndateboots)
     }
 
