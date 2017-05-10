@@ -2,6 +2,9 @@
 
 #load in 
 library(chron)
+options(stringsAsFactors = F)
+library(ggplot2)
+theme_set(theme_classic())
 
 ## Define fuctions stored in separate scripts
 
@@ -17,8 +20,7 @@ source("C:/Users/Jim/Documents/Projects/Talk/SFS 2017/SFS2017/R Secondary Produc
 
 hengill_merge <- read.table(file = './hengill_merged.txt', header= T, sep = "\t", quote = "", strip.white = T, check.names = F, row.names = 1)
 
-#str(hengill_merge)
-
+#subset to just one site
 hver_bugs = hengill_merge[which(hengill_merge$SITE == "Hver"),]
 
 #rename some of the species
@@ -53,12 +55,14 @@ day <- as.numeric(days(chron(dates = as.character(hver_bugs$DATE))))
 JULIAN <- julian(month, day, year, origin=c(month = 12, day = 31, year = 2005))
 
 #Insert the julian date variable into the dataframe:
-hver_bugs <- data.frame(hver_bugs[,1:2], JULIAN, hver_bugs[,3:(dim(hver_bugs)[2])])
+
+hver_bugs <- data.frame(hver_bugs[,1:2], JULIAN, hver_bugs[,3:(dim(hver_bugs)[2])], check.names = F)
+hver_bugs = as.data.frame(unclass(hver_bugs))
 
 #Import temperature data:
-#Average temperatures (degrees C) for each of the 4 sampling intervals for RM30, year2.5
-#DON'T HAVE REAL TEMP DATA FOR RM30, SO I MADE IT UP BY SUBSETTING RM0 DATA:
+
 hv_temp <- temp_light.m[,1:2]
+hv_temp1 = round(hv_temp[c(3:7,9:10,12:14),2],2)
 
 ##Import taxa info:
  #L-M parameter, method of production, growth parameters, cpi's, p/b's, etc. for each taxon:
@@ -66,7 +70,31 @@ hv_temp <- temp_light.m[,1:2]
   
   
 colnames(tax) = c("TAXON", 	"METHOD", 	"LM.a", "LM.b",	"LM.p.ash",	"g.a",	"g.b",	"g.c",	"g.d",	"min.cpi",	"max.cpi",	"num.size.classes",	"p.b",	"Growth.equation", 	"min.growth",	"notes")
+source("C:/Users/Jim/Documents/Projects/Talk/SFS 2017/SFS2017/R Secondary Production-GC Example/Scripts/wrapper.site.yr_function.txt")
 
-hver.out = wrapper.site.yr(DATA = hver_bugs, site = "Hver", habitat = "ALL", TEMP.COB = hv_temp,
-                           TAXA = tax, boot.num = 50)
+hver.out = wrapper.site.yr(DATA = hver_bugs, site = "Hver", habitat = "COBBLE", TEMP.COB = hv_temp1, TEMP.DEP = hv_temp1, TEMP.TAL = hv_temp1, first.date = "08/02/11", last.date = "07/26/12",
+                           TAXA = tax, temp.corr.igr.cob = c(1,1,1,1,1,1,1,1,1,1), temp.corr.igr.dep = c(1,1,1,1,1,1,1,1,1,1), temp.corr.igr.tal = c(1,1,1,1,1,1,1,1,1,1), wrap = T, boot.num = 50)
+
 names(hver.out)
+
+## This finally fucking worked!! woohoo. 
+# Now work with hver.out$Pboots.cob to get the mean summed community production annually
+# then compare with annual mean temperature 
+
+hver.prod = hver.out$Pboots.cob
+
+hver.ann.prod = apply(hver.prod, 1, sum, na.rm = T)
+
+hver.spp.ann.prod = data.frame(apply(hver.prod, 2, mean, na.rm = T))
+colnames(hver.spp.ann.prod) = "Mean.Annual.Prod"
+hver.spp.ann.prod$Species = rownames(hver.spp.ann.prod)
+hver.spp.ann.prod$Species.rank = reorder(hver.spp.ann.prod$Species, -hver.spp.ann.prod$Mean.Annual.Prod)
+
+ggplot(hver.spp.ann.prod, aes(x = Species.rank, y = log(Mean.Annual.Prod))) + geom_point(size = 2) +
+  ylab("ln(Annual production [mg m-2 yr-2])") +  theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust = 1), axis.title.x = element_blank())
+
+mean(hver.ann.prod)
+
+##This pulls out biomass and abundance data for each taxa at each interval
+sampinfo.site.yr(DATA = hver_bugs, site = "Hver", first.date = "08/02/11", last.date = "07/26/12", habitat = "COBBLE", TAXA = tax)
+
