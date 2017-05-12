@@ -174,7 +174,7 @@ st14_temp1 = round(st14_temp[c(3:5,7,10:14),2],2)
 tax = read.table(file = "./SFS code/st14_taxa_info_LISA.txt", header = T, sep = "\t", quote = "", strip.white = T) #this is an updated file for l. riparia growth rates. 
 colnames(tax) = c("TAXON", 	"METHOD", 	"LM.a", "LM.b",	"LM.p.ash",	"g.a",	"g.b",	"g.c",	"g.d",	"min.cpi",	"max.cpi",	"num.size.classes",	"p.b",	"Growth.equation", 	"min.growth",	"notes")
 #source("C:/Users/Jim/Documents/Projects/Talk/SFS 2017/SFS2017/R Secondary Production-GC Example/Scripts/wrapper.site.yr_function.txt")
-
+set.seed(123)
 st14.out = wrapper.site.yr(DATA = st14_bugs, site = "ST14", habitat = "COBBLE", TEMP.COB = st14_temp1, TEMP.DEP = st14_temp1, TEMP.TAL = st14_temp1, first.date = "07/01/11", last.date = "07/26/12",
                            TAXA = tax, temp.corr.igr.cob = c(1,1,1,1,1,1,1,1,1), temp.corr.igr.dep = c(1,1,1,1,1,1,1,1,1), temp.corr.igr.tal = c(1,1,1,1,1,1,1,1,1), wrap = F, boot.num = 50)
 
