@@ -30,25 +30,25 @@ Lepidoptera	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	5
 Snail	igr	0.037	2.908	18.85	-4.7443	-0.62421	9.28529	-4.85757	NA	NA	NA	NA	ln(g) = a + b*ln(mass) + c * temp + d * temp^2		shell included
 Limnophora pupa	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA			
 Slug	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	5			
-S. vittatum	igr	0.2	3.32	7.9	0.01029	0.00003021	8.678E-08	NA	NA	NA	NA	NA	g = a + b * temp + c * mass	0.0001	lisa
-S. indet	igr	0.2	3.32	7.9	0.01029	0.00003021	8.678E-08	NA	NA	NA	NA	NA	g = a + b * temp + c * mass	0.0001	lisa
-S. aurem	igr	0.2	3.32	7.9	0.01029	0.00003021	8.678E-08	NA	NA	NA	NA	NA	g = a + b * temp + c * mass	0.0001	lisa
-S. vernum	igr	0.2	3.32	7.9	0.01029	0.00003021	8.678E-08	NA	NA	NA	NA	NA	g = a + b * temp + c * mass	0.0001	lisa
-Prosimulium	igr	0.2	3.32	7.9	0.01029	0.00003021	8.678E-08	NA	NA	NA	NA	NA	g = a + b * temp + c * mass	0.0001	lisa
+S. vittatum	igr	0.002	3.011	7.9	0.01029	0.00003021	8.678E-08	NA	NA	NA	NA	NA	g = a + b * temp + c * mass	0.0001	lisa
+S. indet	igr	0.002	3.011	7.9	0.01029	0.00003021	8.678E-08	NA	NA	NA	NA	NA	g = a + b * temp + c * mass	0.0001	lisa
+S. aurem	igr	0.002	3.011	7.9	0.01029	0.00003021	8.678E-08	NA	NA	NA	NA	NA	g = a + b * temp + c * mass	0.0001	lisa
+S. vernum	igr	0.002	3.011	7.9	0.01029	0.00003021	8.678E-08	NA	NA	NA	NA	NA	g = a + b * temp + c * mass	0.0001	lisa
+Prosimulium	igr	0.002	3.011	7.9	0.01029	0.00003021	8.678E-08	NA	NA	NA	NA	NA	g = a + b * temp + c * mass	0.0001	lisa
 Thienemanniella sp. 	igr	0.0018	2.617	3	0.01029	0.00003021	8.678E-08	NA	NA	NA	NA	NA	g = a + b * temp + c * mass	0.0001	lisa
 Leech	igr	0.0056	2.198	40	0.01029	0.00003021	8.678E-08	NA	NA	NA	NA	NA	g = a + b * temp + c * mass	0.0001	lisa
 Nematode	igr	0.0056	2.1	40	0.01029	0.00003021	8.678E-08	NA	NA	NA	NA	NA	g = a + b * temp + c * mass	0.0001	lisa
-Sperchon sp.	igr	2.117	2.711	10	0.01029	0.00003021	8.678E-08	NA	350	425			g = a + b * temp + c * mass	0.0001	lisa
+Sperchon sp.	igr	0.0127	2.267	10	0.01029	0.00003021	8.678E-08	NA	350	425			g = a + b * temp + c * mass	0.0001	lisa
 Lumb 3	igr	0.0035	2.1	40	0.01029	0.00003021	8.678E-08	NA	NA	NA	NA	NA	g = a + b * temp + c * mass	0.0001	lisa
 Snail egg	NA														
 Simulium spp.	igr	0.0048	2.55	7.9	0.01029	0.00003021	8.678E-08	NA	NA	NA	NA	NA	g = a + b * temp + c * mass	0.0001	lisa
-Springtail	igr	1.339	1.992	4.5	0.01029	0.00003021	8.678E-08	NA	NA	NA	NA	NA	g = a + b * temp + c * mass	0.0001	lisa
+Springtail	igr	0.0056	2.809	4.5	0.01029	0.00003021	8.678E-08	NA	NA	NA	NA	NA	g = a + b * temp + c * mass	0.0001	lisa
 Clinocera	igr	0.0066	2.437	10	0.01029	0.00003021	8.678E-08	NA	NA	NA	NA	NA	g = a + b * temp + c * mass	0.0001	lisa
 Oligochaeta indet.	igr	0.0035	2.1	40	0.01029	0.00003021	8.678E-08	NA	NA	NA	NA	NA	g = a + b * temp + c * mass	0.0001	lisa
 Radix balthica	igr	0.037	2.908	18.85	-6.27541	0.1421	-0.77972	0.02041	NA	NA	NA	NA	ln(g) = a + b*temp + c*log(mass) + d*temp*log(mass)		check for double snail
 Galba trunculata	igr	0.0284	2.613	18.85	-6.27541	0.1421	-0.77972	0.02041	NA	NA	NA	NA	ln(g) = a + b*temp + c*log(mass) + d*temp*log(mass)		check for double snail
 Simulium vittatum	igr	0.2	3.32	7.9	0.01029	0.00003021	8.678E-08	NA	NA	NA	NA	NA	g = a + b * temp + c * mass	0.0001	lisa
-Sperchon glandulosus	igr	-1.69	1.69	8	0.01029	0.00003021	8.678E-08	NA	NA	NA	NA	NA	g = a + b * temp + c * mass	0.0001	lisa
+Sperchon glandulosus	igr	0.0127	2.267	8	0.01029	0.00003021	8.678E-08	NA	NA	NA	NA	NA	g = a + b * temp + c * mass	0.0001	lisa
 Midge indet. 	igr	0.002	2.254	3	0.051	0.068	0.006	NA	NA	NA	NA	NA	g = a - b*ln(length in mm) + c*temperature in °C	0.0001	NA
 Potamaphylax	igr	0.004	2.933	8	0.01029	0.00003021	8.678E-08	NA	NA	NA	NA	NA	g = a + b * temp + c * mass	0.0001	lisa
 Hydra	igr	0.002	1	10	0.01029	0.00003021	8.678E-08	NA	NA	NA	NA	NA	g = a + b * temp + c * mass	0.0001	lisa

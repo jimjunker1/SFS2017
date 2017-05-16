@@ -9,10 +9,10 @@ theme_set(theme_classic())
 
 #import raw data
 
-hengill_merge <- read.table(file = './hengill_merged.txt', header= T, sep = "\t", quote = "", strip.white = T, check.names = F, row.names = 1)
+hengill_full <- read.table(file = './hengill_full.txt', header= T, sep = "\t", quote = "", strip.white = T, check.names = F, row.names = 1)
 
 #subset to just one site
-st6_bugs = hengill_merge[which(hengill_merge$SITE == "ST6"),]
+st6_bugs = hengill_full[which(hengill_full$SITE == "ST6"),]
 
 taxon = as.factor(st6_bugs$TAXON)
 unique(levels(taxon))
@@ -104,7 +104,12 @@ st6.out = wrapper.site.yr(DATA = st6_bugs, site = "ST6", habitat = "COBBLE", TEM
                            TAXA = tax, temp.corr.igr.cob = c(1,1,1,1,1,1,1,1,1), temp.corr.igr.dep = c(1,1,1,1,1,1,1,1,1), temp.corr.igr.tal = c(1,1,1,1,1,1,1,1,1), wrap = T, boot.num = 50)
 
 names(st6.out)
+st6.out$Pintboots.cob
+colSums(st6.out$Pintboots.cob, na.rm = T)
 
+st6.int = data.frame(st6_temp1, colSums(st6.out$Pintboots.cob, na.rm = T))
+colnames(st6.int) = c("Temperature", "Production")
+sum(colSums(st6.out$Pintboots.cob, na.rm = T))
 ## This finally fucking worked!! woohoo. 
 # Now work with hver.out$Pboots.cob to get the mean summed community production annually
 # then compare with annual mean temperature 
@@ -115,6 +120,15 @@ st6.bio = st6.out$Bboots.cob
 st6.ann.prod = apply(st6.prod, 1, sum, na.rm = T)
 st6.ann.bio = apply(st6.bio, 1, sum, na.rm = T)
 
+st6.spp.ann.prod2 = data.frame(apply(st6.out$Pintboots.cob, 1, sum, na.rm = T))
+st6.spp.ann.prod = data.frame(apply(st6.prod, 2, mean, na.rm = T))
+
+df = data.frame(st6.spp.ann.prod[,1],st6.spp.ann.prod2[,1]) 
+df[is.na(df)]<- 0
+
+plot(log(df[,1]), log(df[,2]))
+abline(a = 0, b = 1)
+
 st6.spp.ann.prod = data.frame(apply(st6.prod, 2, mean, na.rm = T))
 colnames(st6.spp.ann.prod) = "Mean.Annual.Prod"
 st6.spp.ann.prod$Species = rownames(st6.spp.ann.prod)
@@ -123,9 +137,9 @@ st6.spp.ann.prod$Species.rank = reorder(st6.spp.ann.prod$Species, -st6.spp.ann.p
 ggplot(st6.spp.ann.prod, aes(x = Species.rank, y = log(Mean.Annual.Prod))) + geom_point(size = 2) +
   ylab("ln(Annual production [mg m-2 yr-2])") +  theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust = 1), axis.title.x = element_blank())
 
-mean(st6.ann.prod)  #pulls the mean community production estimate
-mean(st6.ann.bio)   #pulls mean community biomass estimate
-mean(st6.ann.prod)/mean(st6.ann.bio)  #annual p/b
+mean(st6.ann.prod)  #4886  #pulls the mean community production estimate
+mean(st6.ann.bio)   # 446  pulls mean community biomass estimate
+mean(st6.ann.prod)/mean(st6.ann.bio)  #10.95  #annual p/b
 ##This pulls out biomass and abundance data for each taxa at each interval
 sampinfo.site.yr(DATA = hver_bugs, site = "Hver", first.date = "08/02/11", last.date = "07/26/12", habitat = "COBBLE", TAXA = tax)
 

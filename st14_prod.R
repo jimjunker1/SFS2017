@@ -9,10 +9,10 @@ theme_set(theme_classic())
 
 #import raw data
 
-hengill_merge <- read.table(file = './hengill_merged.txt', header= T, sep = "\t", quote = "", strip.white = T, check.names = F, row.names = 1)
+hengill_full <- read.table(file = './hengill_full.txt', header= T, sep = "\t", quote = "", strip.white = T, check.names = F, row.names = 1)
 
 #subset to just one site
-st14_bugs = hengill_merge[which(hengill_merge$SITE == "ST14"),]
+st14_bugs = hengill_full[which(hengill_full$SITE == "ST14"),]
 
 taxon = as.factor(st14_bugs$TAXON)
 unique(levels(taxon))
@@ -176,10 +176,15 @@ colnames(tax) = c("TAXON", 	"METHOD", 	"LM.a", "LM.b",	"LM.p.ash",	"g.a",	"g.b",
 #source("C:/Users/Jim/Documents/Projects/Talk/SFS 2017/SFS2017/R Secondary Production-GC Example/Scripts/wrapper.site.yr_function.txt")
 set.seed(123)
 st14.out = wrapper.site.yr(DATA = st14_bugs, site = "ST14", habitat = "COBBLE", TEMP.COB = st14_temp1, TEMP.DEP = st14_temp1, TEMP.TAL = st14_temp1, first.date = "07/01/11", last.date = "07/26/12",
-                           TAXA = tax, temp.corr.igr.cob = c(1,1,1,1,1,1,1,1,1), temp.corr.igr.dep = c(1,1,1,1,1,1,1,1,1), temp.corr.igr.tal = c(1,1,1,1,1,1,1,1,1), wrap = F, boot.num = 50)
+                           TAXA = tax, temp.corr.igr.cob = c(1,1,1,1,1,1,1,1,1), temp.corr.igr.dep = c(1,1,1,1,1,1,1,1,1), temp.corr.igr.tal = c(1,1,1,1,1,1,1,1,1), wrap = T, boot.num = 50)
 
 names(st14.out)
+st14.out$Pintboots.cob
+colSums(st14.out$Pintboots.cob, na.rm = T)
 
+st14.int = data.frame(st14_temp1, colSums(st14.out$Pintboots.cob, na.rm = T))
+colnames(st14.int) = c("Temperature", "Production")
+sum(colSums(st14.out$Pintboots.cob, na.rm = T))
 ## This finally fucking worked!! woohoo. 
 # Now work with hver.out$Pboots.cob to get the mean summed community production annually
 # then compare with annual mean temperature 
@@ -190,17 +195,26 @@ st14.bio = st14.out$Bboots.cob
 st14.ann.prod = apply(st14.prod, 1, sum, na.rm = T)
 st14.ann.bio = apply(st14.bio, 1, sum, na.rm = T)
 
+st14.spp.ann.prod2 = data.frame(apply(st14.out$Pintboots.cob, 1, sum, na.rm = T))
+st14.spp.ann.prod = data.frame(apply(st14.prod, 2, mean, na.rm = T))
+
+df = data.frame(st14.spp.ann.prod[,1],st14.spp.ann.prod2[,1]) 
+df[is.na(df)]<- 0
+
+plot(log(df[,1]), log(df[,2]))
+abline(a = 0, b = 1)
+
 st14.spp.ann.prod = data.frame(apply(st14.prod, 2, mean, na.rm = T))
 colnames(st14.spp.ann.prod) = "Mean.Annual.Prod"
 st14.spp.ann.prod$Species = rownames(st14.spp.ann.prod)
 st14.spp.ann.prod$Species.rank = reorder(st14.spp.ann.prod$Species, -st14.spp.ann.prod$Mean.Annual.Prod)
 
-ggplot(st14.spp.ann.prod, aes(x = Species.rank, y = log(Mean.Annual.Prod))) + geom_point(size = 2) +
-  ylab("ln(Annual production [mg m-2 yr-2])") +  theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust = 1), axis.title.x = element_blank())
+ggplot(st14.spp.ann.prod, aes(x = Species.rank, y = Mean.Annual.Prod)) + geom_point(size = 2) +
+  ylab("Annual production [mg m-2 yr-2]") +  theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust = 1), axis.title.x = element_blank())
 
-mean(st14.ann.prod)  #pulls the mean community production estimate
-mean(st14.ann.bio)   #pulls mean community biomass estimate
-mean(st14.ann.prod)/mean(st14.ann.bio)  #annual p/b
+mean(st14.ann.prod)  #2598.8   #pulls the mean community production estimate
+mean(st14.ann.bio)   #688.1  #pulls mean community biomass estimate
+mean(st14.ann.prod)/mean(st14.ann.bio)  #3.77   #annual p/b
 ##This pulls out biomass and abundance data for each taxa at each interval
 sampinfo.site.yr(DATA = hver_bugs, site = "Hver", first.date = "08/02/11", last.date = "07/26/12", habitat = "COBBLE", TAXA = tax)
 

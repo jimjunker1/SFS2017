@@ -1,0 +1,92 @@
+TAXON	METHOD	LM.a	LM.b	LM.p.ash	Growth.parm.a	Growth.parm.b	Growth.parm.c	Growth.parm.d	rm0.min.cpi.days	rm0.max.cpi.days	num.size.classes	rm0.p.b	Growth.equation	min.growth	notes
+Midge 1	igr	0.0012	2.294	3	0.051	0.068	0.006	NA	NA	NA	NA	NA	g = a - b*ln(length in mm) + c*temperature in °C	0.0001	NA
+Midge 2	igr	0.002	2.254	3	0.051	0.068	0.006	NA	NA	NA	NA	NA	g = a - b*ln(length in mm) + c*temperature in °C	0.0001	NA
+Midge 3	igr	0.002	2.254	3	0.051	0.068	0.006	NA	NA	NA	NA	NA	g = a - b*ln(length in mm) + c*temperature in °C	0.0001	NA
+Midge 3-2	igr	0.002	2.254	3	0.051	0.068	0.006	NA	NA	NA	NA	NA	g = a - b*ln(length in mm) + c*temperature in °C	0.0001	NA
+Midge 4	igr	0.002	2.254	3	0.051	0.068	0.006	NA	NA	NA	NA	NA	g = a - b*ln(length in mm) + c*temperature in °C	0.0001	NA
+Midge 5	igr	0.002	2.254	3	0.051	0.068	0.006	NA	NA	NA	NA	NA	g = a - b*ln(length in mm) + c*temperature in °C	0.0001	NA
+Midge 6	igr	0.002	2.254	3	0.051	0.068	0.006	NA	NA	NA	NA	NA	g = a - b*ln(length in mm) + c*temperature in °C	0.0001	NA
+Midge 7	igr	0.002	2.254	3	0.051	0.068	0.006	NA	NA	NA	NA	NA	g = a - b*ln(length in mm) + c*temperature in °C	0.0001	NA
+Midge 8	igr	0.002	2.254	3	0.051	0.068	0.006	NA	NA	NA	NA	NA	g = a - b*ln(length in mm) + c*temperature in °C	0.0001	NA
+Ceratopogonid	igr	0.00022	2.871	4.3	0.051	0.068	0.006	NA	NA	NA	NA	NA	g = a - b*ln(length in mm) + c*temperature in °C	0.0001	NA
+ST9 Midge 4	igr	0.002	2.254	3	0.051	0.068	0.006	NA	NA	NA	NA	NA	g = a - b*ln(length in mm) + c*temperature in °C	0.0001	NA
+Tanypodinae	igr	0.0026	2.503	4	0.051	0.068	0.006	NA	NA	NA	NA	NA	g = a - b*ln(length in mm) + c*temperature in °C	0.0001	NA
+O. Fridgidus	igr	0.002	2.254	3	0.051	0.068	0.006	NA	NA	NA	NA	NA	g = a - b*ln(length in mm) + c*temperature in °C	0.0001	NA
+Limnophora riparia	igr	0.0054	2.546	2.5	0.01029	0.00003021	8.678E-08	NA	NA	NA	NA	5	g = a + b * temp + c * mass	0.0001	lisa
+Antocha sp.	igr	0.0027	2.637	3.4	0.01029	0.00003021	8.678E-08	NA	NA	NA	NA	5	g = a + b * temp + c * mass	0.0001	lisa
+Ephydridae sp. 	igr	0.0066	2.436	2.5	0.01029	0.00003021	8.678E-08	NA	NA	NA	NA	5	g = a + b * temp + c * mass	0.0001	lisa
+Nais spp.	igr	0.0035	2.1	40	0.014	0.488	0.006	NA	NA	NA	NA	NA	ln(g) = a + b* ln(mass) + c * temp		Naid sp.
+Ostracod	igr	0.0016	4.245	15	0.01029	0.00003021	8.678E-08	NA	20	40	NA	5	g = a + b * temp + c * mass	0.0001	lisa
+Copepoda	igr	0.716	1.84		0.0462	0.0095	NA	NA	NA	NA	NA	NA	g = a + b * temp	0.0001	
+Oribatid 1	igr	0.00266	1	2.5	0.01029	0.00003021	8.678E-08	NA	NA	NA	NA	5	g = a + b * temp + c * mass	0.0001	lisa
+Oribatid 2	igr	0.00266	1	2.5	0.01029	0.00003021	8.678E-08	NA	NA	NA	NA	5	g = a + b * temp + c * mass	0.0001	lisa
+Oribatid 3	igr	0.00266	1	2.5	0.01029	0.00003021	8.678E-08	NA	NA	NA	NA	5	g = a + b * temp + c * mass	0.0001	lisa
+Midge pupa	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	0.0001	NA
+Tub. 1	igr	0.0035	2.1	40	0.01029	0.00003021	8.678E-08	NA				5	g = a + b * temp + c * mass	0.0001	lisa
+Tub. 2	igr	0.0035	2.1	40	0.01029	0.00003021	8.678E-08	NA				5	g = a + b * temp + c * mass	0.0001	lisa
+Thrips	NA	NA	NA	NA								5			
+Homoptera	NA	0.005	3.33	4.2								5			
+Lepidoptera	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	5			
+Snail	igr	0.037	2.908	18.85	-4.7443	-0.62421	9.28529	-4.85757	NA	NA	NA	NA	ln(g) = a + b*ln(mass) + c * temp + d * temp^2		shell included
+Limnophora pupa	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA			
+Slug	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	5			
+S. vittatum	igr	0.002	3.011	7.9	0.01029	0.00003021	8.678E-08	NA	NA	NA	NA	NA	g = a + b * temp + c * mass	0.0001	lisa
+S. indet	igr	0.002	3.011	7.9	0.01029	0.00003021	8.678E-08	NA	NA	NA	NA	NA	g = a + b * temp + c * mass	0.0001	lisa
+S. aureum	igr	0.002	3.011	7.9	0.01029	0.00003021	8.678E-08	NA	NA	NA	NA	NA	g = a + b * temp + c * mass	0.0001	lisa
+S. vernum	igr	0.002	3.011	7.9	0.01029	0.00003021	8.678E-08	NA	NA	NA	NA	NA	g = a + b * temp + c * mass	0.0001	lisa
+Prosimulium	igr	0.002	3.011	7.9	0.01029	0.00003021	8.678E-08	NA	NA	NA	NA	NA	g = a + b * temp + c * mass	0.0001	lisa
+Thienimanniella sp. 	igr	0.0018	2.617	3	0.01029	0.00003021	8.678E-08	NA	NA	NA	NA	NA	g = a + b * temp + c * mass	0.0001	lisa
+Leech	igr	0.0056	2.198	40	0.01029	0.00003021	8.678E-08	NA	NA	NA	NA	NA	g = a + b * temp + c * mass	0.0001	lisa
+Nematode	igr	0.0056	2.1	40	0.01029	0.00003021	8.678E-08	NA	NA	NA	NA	NA	g = a + b * temp + c * mass	0.0001	lisa
+Sperchon sp.	igr	.0127	2.627	10	0.01029	0.00003021	8.678E-08	NA	350	425			g = a + b * temp + c * mass	0.0001	lisa
+Lumb 3	igr	0.0035	2.1	40	0.01029	0.00003021	8.678E-08	NA	NA	NA	NA	NA	g = a + b * temp + c * mass	0.0001	lisa
+Snail egg	NA														
+Simulium spp.	igr	0.0048	2.55	7.9	0.01029	0.00003021	8.678E-08	NA	NA	NA	NA	NA	g = a + b * temp + c * mass	0.0001	lisa
+Springtail	igr	1.339	1.992	4.5	0.01029	0.00003021	8.678E-08	NA	NA	NA	NA	NA	g = a + b * temp + c * mass	0.0001	lisa
+Clinocera	igr	0.0066	2.437	10	0.01029	0.00003021	8.678E-08	NA	NA	NA	NA	NA	g = a + b * temp + c * mass	0.0001	lisa
+Oligochaeta indet.	igr	0.0035	2.1	40	0.01029	0.00003021	8.678E-08	NA	NA	NA	NA	NA	g = a + b * temp + c * mass	0.0001	lisa
+Radix balthica	igr	0.037	2.908	18.85	-6.27541	0.1421	-0.77972	0.02041	NA	NA	NA	NA	ln(g) = a + b*temp + c*log(mass) + d*temp*log(mass)		check for double snail
+Galba truncatula	igr	0.0284	2.613	18.85	-6.27541	0.1421	-0.77972	0.02041	NA	NA	NA	NA	ln(g) = a + b*temp + c*log(mass) + d*temp*log(mass)		check for double snail
+Simulium vittatum	igr	0.2	3.32	7.9	0.01029	0.00003021	8.678E-08	NA	NA	NA	NA	NA	g = a + b * temp + c * mass	0.0001	lisa
+Sperchon glandulosus	igr	-1.69	1.69	8	0.01029	0.00003021	8.678E-08	NA	NA	NA	NA	NA	g = a + b * temp + c * mass	0.0001	lisa
+Midge indet. 	igr	0.002	2.254	3	0.051	0.068	0.006	NA	NA	NA	NA	NA	g = a - b*ln(length in mm) + c*temperature in °C	0.0001	NA
+Potamophylax	igr	0.004	2.933	8	0.01029	0.00003021	8.678E-08	NA	NA	NA	NA	NA	g = a + b * temp + c * mass	0.0001	lisa
+Hydra	igr	0.002	1	10	0.01029	0.00003021	8.678E-08	NA	NA	NA	NA	NA	g = a + b * temp + c * mass	0.0001	lisa
+Red Mite 	igr	2.117	2.711	10	0.01029	0.00003021	8.678E-08	NA	NA	NA	NA	NA	g = a + b * temp + c * mass	0.0001	lisa
+Capnia vidua	igr	0.0049	2.562	8	0.01029	0.00003021	8.678E-08	NA	NA	NA	NA	NA	g = a + b * temp + c * mass	0.0001	lisa
+Clinocera stagnalis	igr	0.0066	2.436	8	0.01029	0.00003021	8.678E-08	NA	NA	NA	NA	NA	g = a + b * temp + c * mass	0.0001	lisa
+Ostracoda	igr	7.00E-05	1.943	8	0.01029	0.00003021	8.678E-08	NA	NA	NA	NA	NA	g = a + b * temp + c * mass	0.0001	lisa
+Sperchon glandulosus B	igr	0.0127	2.627	8	0.01029	0.00003021	8.678E-08	NA	NA	NA	NA	NA	g = a + b * temp + c * mass	0.0001	lisa
+Nematoda	igr	0.0042	1.1197	8	0.01029	0.00003021	8.678E-08	NA	NA	NA	NA	NA	g = a + b * temp + c * mass	0.0001	lisa
+Copepod	igr	1.10E-10	2.59	8	0.01029	0.00003021	8.678E-08	NA	NA	NA	NA	NA	g = a + b * temp + c * mass	0.0001	lisa
+Oligochaeta A	igr	0.00241	1.875	8	0.01029	0.00003021	8.678E-08	NA	NA	NA	NA	NA	g = a + b * temp + c * mass	0.0001	lisa
+Oligochaeta B	igr	0.00241	1.875	8	0.01029	0.00003021	8.678E-08	NA	NA	NA	NA	NA	g = a + b * temp + c * mass	0.0001	lisa
+Oligochaeta C	igr	0.0001	3.25	8	0.01029	0.00003021	8.678E-08	NA	NA	NA	NA	NA	g = a + b * temp + c * mass	0.0001	lisa
+Predatory Oligochaeta	igr	0.00241	1.875	8	0.01029	0.00003021	8.678E-08	NA	NA	NA	NA	NA	g = a + b * temp + c * mass	0.0001	lisa
+Potamophylax cingulatus	igr	0.004	2.933	8	0.01029	0.00003021	8.678E-08	NA	NA	NA	NA	NA	g = a + b * temp + c * mass	0.0001	lisa
+Clinocera stagnalis	igr	0.0066	2.436	8	0.01029	0.00003021	8.678E-08	NA	NA	NA	NA	NA	g = a + b * temp + c * mass	0.0001	lisa
+Dicranota	igr	0.0029	2.681	8	0.01029	0.00003021	8.678E-08	NA	NA	NA	NA	NA	g = a + b * temp + c * mass	0.0001	lisa
+Tipula	igr	0.0054	2.463	8	0.01029	0.00003021	8.678E-08	NA	NA	NA	NA	NA	g = a + b * temp + c * mass	0.0001	lisa
+Limonia	igr	0.0054	2.463	8	0.01029	0.00003021	8.678E-08	NA	NA	NA	NA	NA	g = a + b * temp + c * mass	0.0001	lisa
+Thaumaleidae	igr	0.0018	2.617	8	0.01029	0.00003021	8.678E-08	NA	NA	NA	NA	NA	g = a + b * temp + c * mass	0.0001	lisa
+Ceratopogonidae A	igr	0.0025	2.469	4.3	0.051	0.068	0.006	NA	NA	NA	NA	NA	g = a - b*ln(length in mm) + c*temperature in °C	0.0001	NA
+Ceratopogonidae B	igr	0.004	2.933	4.3	0.051	0.068	0.006	NA	NA	NA	NA	NA	g = a - b*ln(length in mm) + c*temperature in °C	0.0001	NA
+Macropelopia	igr	0.0026	2.503	8	0.051	0.068	0.006	NA	NA	NA	NA	NA	g = a - b*ln(length in mm) + c*temperature in °C	0.0001	NA
+Eukiefferiella minor	igr	0.0018	2.617	8	0.051	0.068	0.006	NA	NA	NA	NA	NA	g = a - b*ln(length in mm) + c*temperature in °C	0.0001	NA
+Eukiefferiella claripennis	igr	0.0018	2.617	8	0.051	0.068	0.006	NA	NA	NA	NA	NA	g = a - b*ln(length in mm) + c*temperature in °C	0.0001	NA
+Diamesa bohemani-zernyi	igr	0.0018	2.617	8	0.051	0.068	0.006	NA	NA	NA	NA	NA	g = a - b*ln(length in mm) + c*temperature in °C	0.0001	NA
+Diamesa bertrami	igr	0.0018	2.617	8	0.051	0.068	0.006	NA	NA	NA	NA	NA	g = a - b*ln(length in mm) + c*temperature in °C	0.0001	NA
+Micropsectra	igr	0.0018	2.617	8	0.051	0.068	0.006	NA	NA	NA	NA	NA	g = a - b*ln(length in mm) + c*temperature in °C	0.0001	NA
+Parochlus	igr	0.0018	2.617	8	0.051	0.068	0.006	NA	NA	NA	NA	NA	g = a - b*ln(length in mm) + c*temperature in °C	0.0001	NA
+Thienemaniella	igr	0.0018	2.617	8	0.051	0.068	0.006	NA	NA	NA	NA	NA	g = a - b*ln(length in mm) + c*temperature in °C	0.0001	NA
+Orthocladius frigidus	igr	0.0018	2.617	8	0.051	0.068	0.006	NA	NA	NA	NA	NA	g = a - b*ln(length in mm) + c*temperature in °C	0.0001	NA
+Orthocladius oblidens	igr	0.0018	2.617	8	0.051	0.068	0.006	NA	NA	NA	NA	NA	g = a - b*ln(length in mm) + c*temperature in °C	0.0001	NA
+Metriocnemus	igr	0.0018	2.617	8	0.051	0.068	0.006	NA	NA	NA	NA	NA	g = a - b*ln(length in mm) + c*temperature in °C	0.0001	NA
+Rheocricotopus effusus	igr	0.0018	2.617	8	0.051	0.068	0.006	NA	NA	NA	NA	NA	g = a - b*ln(length in mm) + c*temperature in °C	0.0001	NA
+Chaetocladius	igr	0.0018	2.617	8	0.051	0.068	0.006	NA	NA	NA	NA	NA	g = a - b*ln(length in mm) + c*temperature in °C	0.0001	NA
+Limnophyes	igr	0.0018	2.617	8	0.051	0.068	0.006	NA	NA	NA	NA	NA	g = a - b*ln(length in mm) + c*temperature in °C	0.0001	NA
+Dytiscidae Larva	igr	0.0077	2.91	8	0.01029	0.00003021	8.678E-08	NA	NA	NA	NA	NA	g = a + b * temp + c * mass	0.0001	lisa
+Dytiscidae Adult	igr	0.0618	2.502	8	0.01029	0.00003021	8.678E-08	NA	NA	NA	NA	NA	g = a + b * temp + c * mass	0.0001	lisa
+Collembola	igr	0.0056	2.809	8	0.01029	0.00003021	8.678E-08	NA	NA	NA	NA	NA	g = a + b * temp + c * mass	0.0001	lisa
+Hirudinea	igr	0.0294	1.752	8	0.01029	0.00003021	8.678E-08	NA	NA	NA	NA	NA	g = a + b * temp + c * mass	0.0001	lisa
+Limnephilus sparsus	igr	0.004	2.933	8	0.01029	0.00003021	8.678E-08	NA	NA	NA	NA	NA	g = a + b * temp + c * mass	0.0001	lisa

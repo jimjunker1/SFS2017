@@ -87,6 +87,9 @@ tail(temp_light11.12)
 
 #creating a data file with just the montly temperature data
 temp_light.m = aggregate(temp_light11.12[c("Hver_tempC", "st9_tempC", "st6_tempC", "st14_tempC", "L_tempC", "Intensity", "light")], list(month=cut(temp_light11.12$Pd, breaks = "month")), mean, na.rm = T)
+temp_light.annual = subset(temp_light, Pd >= as.POSIXct('2011-07-01 00:00:00') & Pd <= as.POSIXct('2012-07-01 00:00:00'))
+temp_light.y = apply(temp_light.annual[,2:(dim(temp_light.annual)[2])], 2, mean, na.rm = T)
+
 
 #plotting the data to look at the holes.
  ggplot(temp_light11.12, aes(x = Pd, y = Hver_tempC)) + geom_line() +
@@ -192,105 +195,88 @@ theme_set(theme_classic())
 ggplot(chla.mod, aes(x = Temp, y = chla)) + geom_point(aes(colour = Stream)) +
   stat_smooth(aes(x = Temp, y = chla), method = "lm", se = F)
 
-
+####  
 #Time to import Dan's data and convert it to the correct form
-
+library(chron)
+options(stringsAsFactors = F)
 warming_data = read.csv(file = "C:/Users/Jim/Documents/Projects/Iceland/Bug Samples/Secondary Production/Final data files/Dan_abundance.csv", T, check.names = F)
+#changing the stream names
+st7.fix=which(warming_data$STREAM == "7")
+warming_data[st7.fix, "STREAM"] <- "ST7"
+#converting the dates to POSIX and correct format
 
-#converting the dates to POSIX
-warming_data$Pd = as.POSIXct(warming_data$DATE, format = "%d-%b-%Y", tz = "UTC")
+warming_data$DATE = as.Date(warming_data$DATE, format = "%d-%b-%Y")
+warming_data$DATE = format(warming_data$DATE, "%m/%d/%y")
+warming_data$Pd = as.POSIXct(warming_data$DATE, format = "%m/%d/%y", tz = "UTC")
 
 #subsetting the dates to relevant frame
 
 warming_sub = subset(warming_data, Pd >= as.POSIXct('2010-10-25') & Pd <= as.POSIXct('2011-10-25'))
-#warming_sub = as.data.frame(warming_sub,)
-#changing the stream names
-
-st7.fix=which(warming_sub$STREAM == "7")
-warming_sub[st7.fix, "STREAM"] <- "ST7"
-
 #pare down the columns to relate to similar structure on 
+warming_sub$HABITAT = rep("COBBLE", nrow(warming_sub))
 
-warming_sub = warming_sub[,c(5,6,3,162,11,12,16:160)]
+warming_sub = warming_sub[,c(5,6,3,163,12,16:160)]
 
-large_spp = which(warming_sub[,146] > 0) #checking what the species that is sooo huge
+names(warming_sub)
+colnames(warming_sub)[1:5] = c("SITE", "SAMPLE", "DATE", "HABITAT", "TAXON") 
 
-year = as.numeric(as.character(years(chron(dates = as.character(warming_sub$Pd)))))
-month = as.numeric(months(chron(dates = as.character(warming_sub$Pd))))
-day = as.numeric(days(chron(dates = as.character(warming_sub$Pd))))
-
-JULIAN = julian(month, day, year, origin = c(month = 01, day = 01, year = 2010))
-
-## now reads in file for secondary production of files ##
+#warming_data = as.data.frame(unclass(warming_data))
+########### now reads in file for secondary production of files ########
 
 #load in the merge function ##
 
-source("C:/Users/Jim/Documents/Projects/Iceland/Bug Samples/Secondary Production/Secondary Production R code suite/frac_merge/frac_merge_function.txt")
+#source("C:/Users/Jim/Documents/Projects/Iceland/Bug Samples/Secondary Production/Secondary Production R code suite/frac_merge/frac_merge_function.txt")
 
 ## Load in the full file of sample counts ##
 
-bugs_fin <- read.table("C:/Users/Jim/Documents/Projects/Iceland/Bug Samples/Secondary Production/Final data files/SamplesFull_fin.txt", header = T, sep = "\t", quote = "", strip.white = T, check.names = F)
-bugs_fin = bugs_fin[,c(1:47)]
+#bugs_fin <- read.table("C:/Users/Jim/Documents/Projects/Iceland/Bug Samples/Secondary Production/Final data files/SamplesFull_fin.txt", header = T, sep = "\t", quote = "", strip.white = T, check.names = F)
+#bugs_fin = bugs_fin[,c(1:47)]
 
-frac_merge(bugs_fin, "hengill")
+#frac_merge(bugs_fin, "hengill")
 
+########  This has already been run ######
+
+library(plyr)
+#load other Hengill file
 hengill_merge <- read.table(file = './hengill_merged.txt', header= T, sep = "\t", quote = "", strip.white = T, check.names = F, row.names = 1)
+names(hengill_merge)
+#merge warming_sub and hengill_merge
 
-#str(hengill_merge)
+hengill_full = rbind.fill(hengill_merge, warming_sub) 
+names(hengill_full)
+hengill_full= hengill_full[!is.na(hengill_full$TAXON),]
+hengill_full[is.na(hengill_full)] = 0 #this is the new complete file to run before everything 
+names(hengill_full)
+hengill_full = hengill_full[,colSums(hengill_full != 0) >0]
+#names(hengill_full)
 
-st9_bugs = hengill_merge[which(hengill_merge$SITE == "ST9"),]
-st6_bugs = hengill_merge[which(hengill_merge$SITE == "ST6"),]
-st14_bugs = hengill_merge[which(hengill_merge$SITE == "ST14"),]
-
-unique(hver_bugs$TAXON)
-
-
-
-
-
-
-unique(st9_bugs$TAXON)
-unique(st6_bugs$TAXON)
-unique(st14_bugs$TAXON)
+write.table(hengill_full, file = "hengill_full.txt", sep = "\t", quote = F, append = F)
 
 #########################
 
-#maxlength = warming_sub[, (colSums(warming_sub == 0) < (dim(warming_sub)[1]))]
+## Now bring in all the annual estimates of production and temperature
+#temp_light.y
+#st14.prod
+#st7.prod
+#st6.prod
+#st9.prod
+#hver.prod  need to adjust the growth rates. 80 P/B not realistic
 
-#merging the full datetime file 
-#mylist <- list(tempHV, datetime)
-#tempHV <- do.call(rbind.fill, mylist)
-#mylist <- list(temp9, datetime)
-#temp9 <- do.call(rbind.fill, mylist)
-#mylist <- list(temp6, datetime)
-#temp6 <- do.call(rbind.fill, mylist)
-#mylist <- list(temp14, datetime)
-#temp14 <- do.call(rbind.fill, mylist)
-#mylist <- list(light, datetime)
-#light <- do.call(rbind.fill, mylist)
-#mylist <- list(light.est, datetime)
-#light.est <- do.call(rbind.fill, mylist)
-#rm(mylist)
+temp_light.y
+production = c(mean(hver.ann.prod), mean(st9.ann.prod), mean(st7.ann.prod), mean(st6.ann.prod), mean(st14.ann.prod))
+biomass = c(mean(hver.ann.bio), mean(st9.ann.bio), mean(st7.ann.bio), mean(st6.ann.bio), mean(st14.ann.bio))
+Stream = names(temp_light.y[1:5])
+annual.prod = data.frame(Stream, production, biomass, temp_light.y[1:5])
 
-#make hourly means
-#tempHVhr_d <- data.frame(tempHV$Pd, tempHV$Hver_tempC)
-#names(tempHVhr_d) <- c("time", "tempHV")
+colnames(annual.prod) = c("Stream", "Production", "Biomass", "Temperature")
 
-#temp9hr_d <- data.frame(temp9$Pd, temp9$st9_tempC)
-#names(temp9hr_d) <- c("time", "temp9")
+ggplot(annual.prod, aes(x = Temperature, y = Production)) + geom_point() + stat_smooth(method = "lm") +
+    xlab("Mean annual Temperature (C)") + ylab("Annual production [mg m-2 yr-1]") + scale_x_continuous(limits = c(0,35))
 
-#temp6hr_d <- data.frame(temp6$Pd, temp6$st6_tempC)
-#names(temp6hr_d) <- c("time", "temp6")
+ggplot(annual.prod, aes(x = Temperature, y = Biomass, label = Stream)) + geom_point() + geom_text(aes(label = Stream)) + stat_smooth(method = "lm") +
+  xlab("Mean annual Temperature (C)") + ylab("Annual biomass [mg m-2]") + scale_x_continuous(limits = c(0,35))
 
-#temp14hr_d <- data.frame(temp14$Pd, temp14$st14_tempC)
-#names(temp14hr_d) <- c("time", "temp14")
+##try to read in the species specific boots
 
-#lighthr_d <- data.frame(light$Pd, light$Intensity)
-#names(lighthr_d) <- c("time", "light")
-
-#light.esthr_d <- data.frame(light.est$Pd, light.est$light)
-#names(light.esthr_d) <- c("time", "light.est")
-
-
-
+hv_snail = read.table(file = "C:/Users/Jim/Documents/Projects/Talk/SFS 2017/SFS2017/Output/Hver/Hver_08-02-11_07-26-12_COBBLE_Radix balthica.txt")
 
