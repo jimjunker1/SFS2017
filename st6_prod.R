@@ -79,7 +79,7 @@ source("C:/Users/Jim/Documents/Projects/Talk/SFS 2017/SFS2017/R Secondary Produc
 source("C:/Users/Jim/Documents/Projects/Talk/SFS 2017/SFS2017/R Secondary Production-GC Example/Scripts/st6igr.prod_function.txt")
 source("C:/Users/Jim/Documents/Projects/Talk/SFS 2017/SFS2017/R Secondary Production-GC Example/Scripts/sf.prod_function.txt")
 source("C:/Users/Jim/Documents/Projects/Talk/SFS 2017/SFS2017/R Secondary Production-GC Example/Scripts/pb.prod_function.txt")
-source("C:/Users/Jim/Documents/Projects/Talk/SFS 2017/SFS2017/R Secondary Production-GC Example/Scripts/wrapper.site.yr_function.txt")
+source("C:/Users/Jim/Documents/Projects/Talk/SFS 2017/SFS2017/R Secondary Production-GC Example/Scripts/wrapper.site.yr_function.R")
 source("C:/Users/Jim/Documents/Projects/Talk/SFS 2017/SFS2017/R Secondary Production-GC Example/Scripts/hab.weight_function.txt")
 source("C:/Users/Jim/Documents/Projects/Talk/SFS 2017/SFS2017/R Secondary Production-GC Example/Scripts/sampinfo.site.yr_function.txt")
 
@@ -91,6 +91,7 @@ get.dates(st6_bugs, site = "ST6", habitat = "COBBLE")
 
 #set the date file
 st6_temp1 = round(st6_temp[c(4:6,8:11,13:14),2],2)
+st6_tempint = st6_temp[c(4:6,8:11,13:14),]
 
 ##Import taxa info:
  #L-M parameter, method of production, growth parameters, cpi's, p/b's, etc. for each taxon:
@@ -106,9 +107,10 @@ st6.out = wrapper.site.yr(DATA = st6_bugs, site = "ST6", habitat = "COBBLE", TEM
 names(st6.out)
 st6.out$Pintboots.cob
 colSums(st6.out$Pintboots.cob, na.rm = T)
+Stream = rep("ST6", length(st6_temp1))
 
-st6.int = data.frame(st6_temp1, colSums(st6.out$Pintboots.cob, na.rm = T))
-colnames(st6.int) = c("Temperature", "Production")
+st6.int = data.frame(Stream, st6_tempint, colSums(st6.out$Pintboots.cob, na.rm = T))
+colnames(st6.int) = c("Stream", "Month", "Temperature", "Production")
 sum(colSums(st6.out$Pintboots.cob, na.rm = T))
 ## This finally fucking worked!! woohoo. 
 # Now work with hver.out$Pboots.cob to get the mean summed community production annually

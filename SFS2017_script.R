@@ -19,6 +19,7 @@ library(chron)
 source("C:/Users/Jim/Documents/Projects/General Files/General R scripts/theme_black.txt")
 theme_set(theme_bw(20))
 theme_set(theme_black(18))
+theme_set(theme_classic())
 #import the data for 
 ##Time, temp, and light
 
@@ -273,10 +274,30 @@ colnames(annual.prod) = c("Stream", "Production", "Biomass", "Temperature")
 ggplot(annual.prod, aes(x = Temperature, y = Production)) + geom_point() + stat_smooth(method = "lm") +
     xlab("Mean annual Temperature (C)") + ylab("Annual production [mg m-2 yr-1]") + scale_x_continuous(limits = c(0,35))
 
-ggplot(annual.prod, aes(x = Temperature, y = Biomass, label = Stream)) + geom_point() + geom_text(aes(label = Stream)) + stat_smooth(method = "lm") +
+ggplot(annual.prod, aes(x = Temperature, y = Biomass, label = Stream)) + geom_point() + geom_text(aes(label = Stream)) + stat_smooth(method = "lm", se = T) +
   xlab("Mean annual Temperature (C)") + ylab("Annual biomass [mg m-2]") + scale_x_continuous(limits = c(0,35))
 
 ##try to read in the species specific boots
 
-hv_snail = read.table(file = "C:/Users/Jim/Documents/Projects/Talk/SFS 2017/SFS2017/Output/Hver/Hver_08-02-11_07-26-12_COBBLE_Radix balthica.txt")
+#hv_snail = read.table(file = "C:/Users/Jim/Documents/Projects/Talk/SFS 2017/SFS2017/Output/Hver/Hver_08-02-11_07-26-12_COBBLE_Radix balthica.txt")
 
+#Interval production and temperature
+
+source(file = "C:/Users/Jim/Documents/Projects/Talk/SFS 2017/SFS2017/hver_prod.R")
+source(file = "C:/Users/Jim/Documents/Projects/Talk/SFS 2017/SFS2017/st9_prod.R")
+source(file = "C:/Users/Jim/Documents/Projects/Talk/SFS 2017/SFS2017/st6_prod.R")
+source(file = "C:/Users/Jim/Documents/Projects/Talk/SFS 2017/SFS2017/st7_prod.R")
+source(file = "C:/Users/Jim/Documents/Projects/Talk/SFS 2017/SFS2017/st14_prod.R")
+
+hver.int
+st9.int
+st6.int
+st7.int
+st14.int
+
+prod.int = rbind(hver.int, st9.int, st6.int, st7.int, st14.int)
+
+ggplot(prod.int, aes(x = Temperature, y = Production, group = Stream)) + geom_point(aes(colour = Stream), size = 3) +
+    stat_smooth(method = "lm", se = F)
+lin.mod = lm(Production~Temperature * Stream, data = prod.int);summary(lin.mod)
+lin.mod = lm(Production~Temperature, data = prod.int); summary(lin.mod)

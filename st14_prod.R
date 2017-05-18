@@ -155,7 +155,7 @@ source("C:/Users/Jim/Documents/Projects/Talk/SFS 2017/SFS2017/R Secondary Produc
 source("C:/Users/Jim/Documents/Projects/Talk/SFS 2017/SFS2017/R Secondary Production-GC Example/Scripts/st14igr.prod_function.txt")
 source("C:/Users/Jim/Documents/Projects/Talk/SFS 2017/SFS2017/R Secondary Production-GC Example/Scripts/sf.prod_function.txt")
 source("C:/Users/Jim/Documents/Projects/Talk/SFS 2017/SFS2017/R Secondary Production-GC Example/Scripts/pb.prod_function.txt")
-source("C:/Users/Jim/Documents/Projects/Talk/SFS 2017/SFS2017/R Secondary Production-GC Example/Scripts/wrapper.site.yr_function.txt")
+source("C:/Users/Jim/Documents/Projects/Talk/SFS 2017/SFS2017/R Secondary Production-GC Example/Scripts/wrapper.site.yr_function.R")
 source("C:/Users/Jim/Documents/Projects/Talk/SFS 2017/SFS2017/R Secondary Production-GC Example/Scripts/hab.weight_function.txt")
 source("C:/Users/Jim/Documents/Projects/Talk/SFS 2017/SFS2017/R Secondary Production-GC Example/Scripts/sampinfo.site.yr_function.txt")
 
@@ -167,6 +167,7 @@ get.dates(st14_bugs, site = "ST14", habitat = "COBBLE")
 
 #set the date file
 st14_temp1 = round(st14_temp[c(3:5,7,10:14),2],2)
+st14_tempint = st14_temp[c(3:5,7,10:14),]
 
 ##Import taxa info:
  #L-M parameter, method of production, growth parameters, cpi's, p/b's, etc. for each taxon:
@@ -175,15 +176,18 @@ tax = read.table(file = "./SFS code/st14_taxa_info_LISA.txt", header = T, sep = 
 colnames(tax) = c("TAXON", 	"METHOD", 	"LM.a", "LM.b",	"LM.p.ash",	"g.a",	"g.b",	"g.c",	"g.d",	"min.cpi",	"max.cpi",	"num.size.classes",	"p.b",	"Growth.equation", 	"min.growth",	"notes")
 #source("C:/Users/Jim/Documents/Projects/Talk/SFS 2017/SFS2017/R Secondary Production-GC Example/Scripts/wrapper.site.yr_function.txt")
 set.seed(123)
-st14.out = wrapper.site.yr(DATA = st14_bugs, site = "ST14", habitat = "COBBLE", TEMP.COB = st14_temp1, TEMP.DEP = st14_temp1, TEMP.TAL = st14_temp1, first.date = "07/01/11", last.date = "07/26/12",
+st14.out = wrapper.site.yr(DATA = st14_bugs, site = "ST14", habitat = "COBBLE", TEMP.COB = st14_temp1, TEMP.DEP = st14_temp1, TEMP.TAL = st14_temp1, first.date = "07/01/11", last.date = "06/30/12",
                            TAXA = tax, temp.corr.igr.cob = c(1,1,1,1,1,1,1,1,1), temp.corr.igr.dep = c(1,1,1,1,1,1,1,1,1), temp.corr.igr.tal = c(1,1,1,1,1,1,1,1,1), wrap = T, boot.num = 50)
 
 names(st14.out)
 st14.out$Pintboots.cob
+st14.out$Bintboots.cob
 colSums(st14.out$Pintboots.cob, na.rm = T)
 
-st14.int = data.frame(st14_temp1, colSums(st14.out$Pintboots.cob, na.rm = T))
-colnames(st14.int) = c("Temperature", "Production")
+Stream = rep("ST14", length(st14_temp1))
+st14.int = data.frame(Stream, st14_tempint, colSums(st14.out$Pintboots.cob, na.rm = T))
+colnames(st14.int) = c("Stream", "Month", "Temperature", "Production")
+
 sum(colSums(st14.out$Pintboots.cob, na.rm = T))
 ## This finally fucking worked!! woohoo. 
 # Now work with hver.out$Pboots.cob to get the mean summed community production annually

@@ -86,8 +86,12 @@ names(hver.out)
 hver.out$Pintboots.cob
 colSums(hver.out$Pintboots.cob, na.rm = T)
 
-hver.int = data.frame(hv_temp1, colSums(hver.out$Pintboots.cob, na.rm = T))
-colnames(hver.int) = c("Temperature", "Production")
+hv_temp1 = round(hv_temp[c(3:7,9:10,12:14),2],2)
+hv_tempint = hv_temp[c(3:7,9:10,12:14),]
+
+Stream = rep("Hver", length(hv_temp1))
+hver.int = data.frame(Stream, hv_tempint, colSums(hver.out$Pintboots.cob, na.rm = T))
+colnames(hver.int) = c("Stream", "Month", "Temperature", "Production")
 sum(colSums(hver.out$Pintboots.cob, na.rm = T))
 ## This finally fucking worked!! woohoo. 
 # Now work with hver.out$Pboots.cob to get the mean summed community production annually

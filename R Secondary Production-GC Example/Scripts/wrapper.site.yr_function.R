@@ -245,13 +245,30 @@
         Nboots.cob[,a] <- out$Nboots
         names(Nboots.cob)[a] <- as.character(tax.info$TAXON)
         Pintboots.out <- out$Pintboots
-        Pintboots.out[which(Pintboots.out == 0)] = NA
-        #Pintboots.cob[a,] <- Pintboots.out
-        Pintboots.cob[a,] = apply(data.frame(Pintboots.out), 2, mean, na.rm = T)
-        #Pintboots.cob[,a] <- colMeans(as.data.frame(Pintboots.out), na.rm = T)
-        #Pintboots.cob[a,] <- out$Pintboots
+        if (all(is.na(Pintboots.out)) | all(is.nan(Pintboots.out))){
+          Pintboots.cob[a,] <- 0
+        }  
+        else if(all(Pintboots.out == 0)){
+          Pintboots.cob[a,] <- 0
+        } 
+        else {
+          Pintboots.cob[a,] = apply(data.frame(Pintboots.out), 2, mean, na.rm = T)
+        } 
+        #Pintboots.out[which(Pintboots.out == 0)] = NA
         rownames(Pintboots.cob)[a] = as.character(tax.info$TAXON)
-        #print(Pintboots.out)
+        Bintboots.out <- out$Bdateboots
+        if(all(is.na(Bintboots.out))){
+          Bintboots.cob[a,] <- 0
+        }
+        else if(all(Bintboots.out == 0)){
+          Bintboots.cob[a,] <- 0
+        }
+        else {
+          Bintboots.cob[a,] = apply(data.frame(Bintboots.out), 2, mean, na.rm = T)
+        }
+        #Bintboots.out[which(Bintboots.out == 0)] = NA
+        #Bintboots.cob[a,] = apply(data.frame(Bintboots.out), 2, mean, na.rm = T)
+        rownames(Bintboots.cob)[a] = as.character(tax.info$TAXON)
       }
       else if (habitat == "DEPOSITIONAL" & dim(tax.info)[1] != 0){
         Pboots.dep[,a] <- out$Pboots
@@ -282,7 +299,7 @@
         names(Pboots.cob)[a] <- names(Pboots.dep)[a] <- names(Pboots.tal)[a] <- names(Bboots.cob)[a] <- names(Bboots.dep)[a] <- names(Bboots.tal)[a] <- names(Nboots.cob)[a] <- names(Nboots.dep)[a] <- names(Nboots.tal)[a] <- as.character(tax.info$TAXON)
       }
     }
-    list(Pboots.cob=Pboots.cob, Pboots.dep=Pboots.dep, Pboots.tal=Pboots.tal, Bboots.cob=Bboots.cob, Bboots.dep=Bboots.dep, Bboots.tal=Bboots.tal, Nboots.cob=Nboots.cob, Nboots.dep=Nboots.dep, Nboots.tal=Nboots.tal, Pintboots.cob = Pintboots.cob)
+    list(Pboots.cob=Pboots.cob, Pboots.dep=Pboots.dep, Pboots.tal=Pboots.tal, Bboots.cob=Bboots.cob, Bboots.dep=Bboots.dep, Bboots.tal=Bboots.tal, Nboots.cob=Nboots.cob, Nboots.dep=Nboots.dep, Nboots.tal=Nboots.tal, Pintboots.cob = Pintboots.cob, Bintboots.cob = Bintboots.cob)
     }
  }
 
