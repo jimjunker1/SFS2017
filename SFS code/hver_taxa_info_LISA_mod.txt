@@ -1,7 +1,7 @@
 TAXON	METHOD	LM.a	LM.b	LM.p.ash	Growth.parm.a	Growth.parm.b	Growth.parm.c	Growth.parm.d	rm0.min.cpi.days	rm0.max.cpi.days	num.size.classes	rm0.p.b	Growth.equation	min.growth	notes
 Midge 1	igr	0.002	2.254	2.5	0.051	0.068	0.006	NA	NA	NA	NA	NA	g = a - b*ln(length in mm) + c*temperature in °C	0.0001	NA
 Limnophora riparia	igr	0.0054	2.546	2.5	0.01029	0.00003021	8.678E-08	NA	20	40	NA	5	g = a + b * temp + c * mass	0.0001	lisa
-Nais spp.	igr	0.0035	2.1	40	0.014	0.488	0.006	NA	NA	NA	NA	NA	ln(g) = a + b* ln(mass) + c * temp		Naid sp.
+Nais spp.	igr	0.0035	2.1	30	0.014	0.488	0.006	NA	NA	NA	NA	NA	g = a + b * temp + c * mass	0.0001	lisa
 Ostracod	igr	0.0016	4.245	15	0.01029	0.00003021	8.678E-08	NA	20	40	NA	5	g = a + b * temp + c * mass	0.0001	lisa
 Oribatid 1	igr	0.00266	1	2.5	0.01029	0.00003021	8.678E-08	NA	NA	NA	NA	5	g = a + b * temp + c * mass	0.0001	lisa
 Midge pupa	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	0.0001	NA
@@ -12,7 +12,7 @@ Lepidoptera	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	5
 Snail	igr	0.037	2.908	18.85	-4.7443	-0.62421	9.28529	-4.85757	NA	NA	NA	NA	ln(g) = a + b*ln(mass) + c * temp + d * temp^2		shell included
 Limnophora pupa	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA			
 Slug	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	5			
-S. vittatum	igr	0.002	3.011	7.9	0.01029	0.00003021	8.678E-08	NA	NA	NA	NA	NA	g = a + b * temp + c * mass	0.0001	lisa
+S. vittatum	igr	0.002	3.011	7.9	0.03029	0.000035021	0.0000099	NA	NA	NA	NA	NA	g = a + b * temp + c * mass	0.0001	lisa
 Leech	igr	0.0056	2.198	40	0.01029	0.00003021	8.678E-08	NA	NA	NA	NA	NA	g = a + b * temp + c * mass	0.0001	lisa
 Nematode	igr	0.0056	2.1	40	0.01029	0.00003021	8.678E-08	NA	NA	NA	NA	NA	g = a + b * temp + c * mass	0.0001	lisa
 Midge 2	igr	0.006	2.77	2.5	0.051	0.068	0.006	NA	NA	NA	NA	NA	g = a - b*ln(length in mm) + c*temperature in °C	0.0001	NA

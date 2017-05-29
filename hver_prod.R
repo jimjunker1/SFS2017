@@ -13,6 +13,8 @@ hengill_full <- read.table(file = './hengill_full.txt', header= T, sep = "\t", q
 #subset to just one site
 hver_bugs = hengill_full[which(hengill_full$SITE == "Hver"),]
 
+
+hver_bugs[which(hver_bugs$TAXON == "Lumb 1"),]
 #rename some of the species
 hver.fix = which(hver_bugs$TAXON == "Snail")
 hver_bugs[hver.fix, "TAXON"] = "Radix balthica" 
@@ -53,6 +55,8 @@ JULIAN <- julian(month, day, year, origin=c(month = 12, day = 31, year = 2005))
 hver_bugs <- data.frame(hver_bugs[,1:2], JULIAN, hver_bugs[,3:(dim(hver_bugs)[2])], check.names = F)
 hver_bugs = as.data.frame(unclass(hver_bugs))
 
+saveRDS(hver_bugs, file = "hver_bugs.rda")
+
 #Import temperature data:
 
 hv_temp <- temp_light.m[,1:2]
@@ -65,7 +69,7 @@ hv_temp1 = round(hv_temp[c(3:7,9:10,12:14),2],2)
 ## Define fuctions stored in separate scripts
 
 source("C:/Users/Jim/Documents/Projects/Talk/SFS 2017/SFS2017/R Secondary Production-GC Example/Scripts/get.dates_function.txt")
-source("C:/Users/Jim/Documents/Projects/Talk/SFS 2017/SFS2017/R Secondary Production-GC Example/Scripts/hvigr.prod_function.txt")
+source("C:/Users/Jim/Documents/Projects/Talk/SFS 2017/SFS2017/R Secondary Production-GC Example/Scripts/hvigr.prod_function.R")
 source("C:/Users/Jim/Documents/Projects/Talk/SFS 2017/SFS2017/R Secondary Production-GC Example/Scripts/sf.prod_function.txt")
 source("C:/Users/Jim/Documents/Projects/Talk/SFS 2017/SFS2017/R Secondary Production-GC Example/Scripts/pb.prod_function.txt")
 source("C:/Users/Jim/Documents/Projects/Talk/SFS 2017/SFS2017/R Secondary Production-GC Example/Scripts/wrapper.site.yr_function.R")
@@ -82,6 +86,7 @@ colnames(tax) = c("TAXON", 	"METHOD", 	"LM.a", "LM.b",	"LM.p.ash",	"g.a",	"g.b",
 set.seed(123)
 hver.out = wrapper.site.yr(DATA = hver_bugs, site = "Hver", habitat = "COBBLE", TEMP.COB = hv_temp1, TEMP.DEP = hv_temp1, TEMP.TAL = hv_temp1, first.date = "08/02/11", last.date = "07/26/12",
                            TAXA = tax, temp.corr.igr.cob = c(1,1,1,1,1,1,1,1,1,1), temp.corr.igr.dep = c(1,1,1,1,1,1,1,1,1,1), temp.corr.igr.tal = c(1,1,1,1,1,1,1,1,1,1), wrap = T, boot.num = 50)
+saveRDS(hver.out, file = "hver_out.rda")
 names(hver.out)
 hver.out$Pintboots.cob
 colSums(hver.out$Pintboots.cob, na.rm = T)
@@ -91,8 +96,11 @@ hv_tempint = hv_temp[c(3:7,9:10,12:14),]
 
 Stream = rep("Hver", length(hv_temp1))
 hver.int = data.frame(Stream, hv_tempint, colSums(hver.out$Pintboots.cob, na.rm = T))
-colnames(hver.int) = c("Stream", "Month", "Temperature", "Production")
+colnames(hver.int) = c("Stream", "month", "Temperature", "Production")
+saveRDS(hver.int, file = "hver.int.rda")
+
 sum(colSums(hver.out$Pintboots.cob, na.rm = T))
+
 ## This finally fucking worked!! woohoo. 
 # Now work with hver.out$Pboots.cob to get the mean summed community production annually
 # then compare with annual mean temperature 
@@ -115,9 +123,26 @@ abline(a = 0, b = 1)
 colnames(hver.spp.ann.prod) = "Mean.Annual.Prod"
 hver.spp.ann.prod$Species = rownames(hver.spp.ann.prod)
 hver.spp.ann.prod$Species.rank = reorder(hver.spp.ann.prod$Species, -hver.spp.ann.prod$Mean.Annual.Prod)
+hver.spp.ann.prod$spp.rank = seq(1, length(hver.spp.ann.prod$Species.rank), length = length(hver.spp.ann.prod$Species.rank))
+hver.spp.ann.prod$spp.rank = reorder(hver.spp.ann.prod$spp.rank, - hver.spp.ann.prod$Mean.Annual.Prod)
+
+hver.spp.ann.prod$Species.rank = reorder(hver.spp.ann.prod$Species, -hver.spp.ann.prod$Mean.Annual.Prod)
+hver.spp.ann.prod = hver.spp.ann.prod %>% mutate(spp.rank = dense_rank(-Mean.Annual.Prod))
+hver.spp.ann.prod = hver.spp.ann.prod[! is.na(hver.spp.ann.prod$spp.rank),]
+saveRDS(hver.spp.ann.prod, file = "hver.spp.ann.prod.rda")
+ggplot(hver.spp.ann.prod %>% arrange(spp.rank), aes(x = spp.rank, y = log(Mean.Annual.Prod))) + geom_point(size = 2) + geom_path(aes(group = 1), size = 1.5) +
+  ylab("ln(Annual production [mg m-2 yr-1])") +  theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust = 1), axis.title.x = element_blank())
+
+
+#remove species with no production
+spp.rem = c("Homoptera", "Lepidoptera", "Limnophora pupa", "Midge pupa", "Slug", "Snail egg", "Thrips")
+hver.spp.ann.prod = hver.spp.ann.prod[! hver.spp.ann.prod$Species.rank %in% spp.rem,]
+
+ggplot(hver.spp.ann.prod %>% arrange(spp.rank), aes(x = Species.rank, y = log(Mean.Annual.Prod))) + geom_point(size =2 ) + geom_path(aes(group = 1), size = 2) +
+  ylab("log(Annual production [mg m-2 yr-1]") + theme(axis.text.x = element_text(angle = 45, vjust =1, hjust =1), axis.title.x = element_blank())
 
 ggplot(hver.spp.ann.prod, aes(x = Species.rank, y = log(Mean.Annual.Prod))) + geom_point(size = 2) +
-  ylab("ln(Annual production [mg m-2 yr-2])") +  theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust = 1), axis.title.x = element_blank())
+  ylab("ln(Annual production [mg m-2 yr-1])") +  theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust = 1), axis.title.x = element_blank())
 
 mean(hver.ann.prod)  #21627
 mean(hver.ann.bio)   #270.7499

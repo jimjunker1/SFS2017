@@ -6,7 +6,6 @@ options(stringsAsFactors = F)
 library(ggplot2)
 theme_set(theme_classic())
 
-
 #import raw data
 
 hengill_full <- read.table(file = './hengill_full.txt', header= T, sep = "\t", quote = "", strip.white = T, check.names = F, row.names = 1)
@@ -68,6 +67,7 @@ JULIAN <- julian(month, day, year, origin=c(month = 12, day = 31, year = 2005))
 st7_bugs <- data.frame(st7_bugs[,1:2], JULIAN, st7_bugs[,3:(dim(st7_bugs)[2])], check.names = F)
 st7_bugs = as.data.frame(unclass(st7_bugs))
 
+saveRDS(st7_bugs, file = "st7_bugs.rda")
 
 ## Define fuctions stored in separate scripts
 
@@ -81,13 +81,13 @@ source("C:/Users/Jim/Documents/Projects/Talk/SFS 2017/SFS2017/R Secondary Produc
 
 #Import temperature data:
 
-st7_temp <- temp_light.m[,c(1,6)]
+st7_temp <- temp_light10.11[,c(1,2)]
 #find the dates
 get.dates(st7_bugs, site = "ST7", habitat = "COBBLE")
 
 #set the date file
-st7_temp1 = round(st7_temp[c(4:15),2],2)
-st7_tempint = st7_temp[c(4:15),]
+st7_temp1 = round(st7_temp[c(1,3:13),2],2)
+st7_tempint = st7_temp[c(1,3:13),]
 
 ##Import taxa info:
  #L-M parameter, method of production, growth parameters, cpi's, p/b's, etc. for each taxon:
@@ -99,13 +99,16 @@ set.seed(123)
 st7.out = wrapper.site.yr(DATA = st7_bugs, site = "ST7", habitat = "COBBLE", TEMP.COB = st7_temp1, TEMP.DEP = st7_temp1, TEMP.TAL = st7_temp1, first.date = "10/26/10", last.date = "10/17/11",
                            TAXA = tax, temp.corr.igr.cob = c(1,1,1,1,1,1,1,1,1,1,1,1), temp.corr.igr.dep = c(1,1,1,1,1,1,1,1,1,1,1,1), temp.corr.igr.tal = c(1,1,1,1,1,1,1,1,1,1,1,1), wrap = T, boot.num = 50)
 
+saveRDS(st7.out, file = "st7_out.rda")
 names(st7.out)
 st7.out$Pintboots.cob
 colSums(st7.out$Pintboots.cob, na.rm = T)
-Stream = rep("ST7", length(st7_temp1))
 
+Stream = rep("ST7", length(st7_temp1))
 st7.int = data.frame(Stream, st7_tempint, colSums(st7.out$Pintboots.cob, na.rm = T))
-colnames(st7.int) = c("Stream", "Month", "Temperature", "Production")
+colnames(st7.int) = c("Stream", "month", "Temperature", "Production")
+saveRDS(st7.int, file = "st7.int.rda")
+
 sum(colSums(st7.out$Pintboots.cob, na.rm = T))
 ## This finally fucking worked!! woohoo. 
 # Now work with hver.out$Pboots.cob to get the mean summed community production annually
@@ -126,13 +129,26 @@ df[is.na(df)]<- 0
 plot(log(df[,1]), log(df[,2]))
 abline(a = 0, b = 1)
 
-st7.spp.ann.prod = data.frame(apply(st7.prod, 2, mean, na.rm = T))
+#st7.spp.ann.prod = data.frame(apply(st7.prod, 2, mean, na.rm = T))
 colnames(st7.spp.ann.prod) = "Mean.Annual.Prod"
 st7.spp.ann.prod$Species = rownames(st7.spp.ann.prod)
 st7.spp.ann.prod$Species.rank = reorder(st7.spp.ann.prod$Species, -st7.spp.ann.prod$Mean.Annual.Prod)
+st7.spp.ann.prod$spp.rank = seq(1, length(st7.spp.ann.prod$Species.rank), length = length(st7.spp.ann.prod$Species.rank))
+st7.spp.ann.prod$spp.rank = reorder(st7.spp.ann.prod$spp.rank, - st7.spp.ann.prod$Mean.Annual.Prod)
+st7.spp.ann.prod[which(st7.spp.ann.prod$Mean.Annual.Prod == 0),] <- NA
+st7.spp.ann.prod = st7.spp.ann.prod[! is.na(st7.spp.ann.prod$spp.rank),]
+st7.spp.ann.prod = st7.spp.ann.prod %>% mutate(spp.rank = dense_rank(-Mean.Annual.Prod))
+  
+saveRDS(st7.spp.ann.prod, file = "st7.spp.ann.prod.rda")
+
+#no species to remove
+####
+ggplot(st7.spp.ann.prod %>% arrange(spp.rank), aes(x = spp.rank, y = log(Mean.Annual.Prod))) + geom_point(size = 2) + geom_path(aes(group = 1), size = 1.5) +
+  ylab("ln(Annual production [mg m-2 yr-1])") +  theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust = 1), axis.title.x = element_blank())
 
 ggplot(st7.spp.ann.prod, aes(x = Species.rank, y = log(Mean.Annual.Prod))) + geom_point(size = 2) +
-  ylab("ln(Annual production [mg m-2 yr-2])") +  theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust = 1), axis.title.x = element_blank())
+  ylab("ln(Annual production [mg m-2 yr-1])") +  theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust = 1), axis.title.x = element_blank())
+###
 
 st7.spp.ann.bio = data.frame(apply(st7.bio, 2, mean, na.rm = T))
 colnames(st7.spp.ann.bio) = "Mean.Annual.Bio"

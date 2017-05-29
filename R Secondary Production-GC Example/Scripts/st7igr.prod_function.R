@@ -105,7 +105,7 @@
           }
         }
       }
-      else if (taxon == "Tub. 1" | taxon == "Tub. 2"| taxon == "S. vittatum" | taxon == "S. indet" |taxon == "Ostracoda" | taxon == "Oribatid 1" | taxon == "Leech" | taxon == "Nematode" | taxon == "Sperchon sp." | taxon == "Lumb 3" | taxon == "Springtail" | taxon =="Clinocera" |
+      else if (taxon == "Tub. 1" | taxon == "Tub. 2"| taxon == "S. vittatum" | taxon == "S. indet" |taxon == "Copepod" | taxon == "Oribatid 1" | taxon == "Leech" | taxon == "Nematode" | taxon == "Sperchon sp." | taxon == "Lumb 3" | taxon == "Springtail" | taxon =="Clinocera" |
                taxon == "Antocha sp." | taxon == "Oribatid 2" |taxon == "Ephydridae sp." | taxon == "Oligochaeta indet." | taxon == "Potamophylax" | taxon == "Tub. 2" | taxon == "Prosimulium" | taxon == "S. vernum" | taxon == "S. aureum" | taxon == "Limnephilus sparsus" |
                taxon == "Hirudinea" | taxon == "Limonia" |taxon == "Collembola" | taxon == "Oligochaeta A" | taxon == "Oligochaeta B" | taxon == "Oligochaeta C" | taxon == "Predatory Oligochaeta" | taxon == "Capnia vidua" | taxon == "Dytiscidae Larva" | taxon == "Dytiscidae Adult"){
         for (s in 1:length(sizes$mm)){
@@ -131,11 +131,11 @@
           }
         }
       }        
-      else if (taxon == "Copepod"){
+      else if (taxon == "Ostracoda"){
               for (s in 1:length(sizes$mm)){
                 for (d in 1:length(t.int)){
-                  if ((g.a + (g.b*TEMP[d])) > 0){
-                    int.P[d,s] <- int.B[d,s]*t.int[d]*(g.a + (g.b*TEMP[d]))		#Calculate interval production (interval biomass * interval duration * growth rate for each size class on each date * temp correction factor for each date)
+                  if ((g.a + (g.b*TEMP[d]) + (g.c*sizes$AFDM[s])) > 0){
+                    int.P[d,s] <- int.B[d,s]*t.int[d]*(g.a + (g.b*TEMP[d])+(g.c*sizes$AFDM[s]))		#Calculate interval production (interval biomass * interval duration * growth rate for each size class on each date * temp correction factor for each date)
                   }
                   else {
                     int.P[d,s] <- int.B[d,s]*t.int[d]*min.growth			#Calculate interval production (interval biomass * interval duration * minimum growth rate if growth equation gives a zero or negative value)
@@ -186,11 +186,11 @@
             }
           }
         }
-        else if (taxon == "Copepod"){
+        else if (taxon == "Ostracoda"){
           for (s in 1:length(sizes$mm)){
             for (d in 1:length(t.int)){
-              if ((g.a + (g.b*TEMP[d])) > 0){
-                int.P[d,s] <- int.B[d,s]*t.int[d]*(g.a + (g.b*TEMP[d]))		#Calculate interval production (interval biomass * interval duration * growth rate for each size class on each date * temp correction factor for each date)
+              if ((g.a + (g.b*TEMP[d])+(g.c*sizes$AFDM[s])) > 0){
+                int.P[d,s] <- int.B[d,s]*t.int[d]*(g.a + (g.b*TEMP[d])+(g.c*sizes$AFDM[s]))		#Calculate interval production (interval biomass * interval duration * growth rate for each size class on each date * temp correction factor for each date)
               }
               else {
                 int.P[d,s] <- int.B[d,s]*t.int[d]*min.growth			#Calculate interval production (interval biomass * interval duration * minimum growth rate if growth equation gives a zero or negative value)
@@ -222,7 +222,7 @@
             }
           }
         }
-        else if (taxon == "Tub. 1" | taxon == "Tub. 2"| taxon == "S. vittatum" | taxon == "S. indet" |taxon == "Ostracoda" | taxon == "Oribatid 1" | taxon == "Leech" | taxon == "Nematode" | taxon == "Sperchon sp." | taxon == "Lumb 3" | taxon == "Springtail" | taxon =="Clinocera" |
+        else if (taxon == "Tub. 1" | taxon == "Tub. 2"| taxon == "S. vittatum" | taxon == "S. indet" |taxon == "Copepod" | taxon == "Oribatid 1" | taxon == "Leech" | taxon == "Nematode" | taxon == "Sperchon sp." | taxon == "Lumb 3" | taxon == "Springtail" | taxon =="Clinocera" |
                  taxon == "Antocha sp." | taxon == "Oribatid 2" |taxon == "Ephydridae sp." | taxon == "Oligochaeta indet." | taxon == "Potamophylax" | taxon == "Tub. 2" | taxon == "Prosimulium" | taxon == "S. vernum" | taxon == "S. aureum" | taxon == "Limnephilus sparsus" |
                  taxon == "Hirudinea" | taxon == "Limonia" | taxon == "Collembola" | taxon == "Oligochaeta A" | taxon == "Oligochaeta B" | taxon == "Oligochaeta C" | taxon == "Predatory Oligochaeta" | taxon == "Capnia vidua" | taxon == "Dytiscidae Larva" | taxon == "Dytiscidae Adult"){
           for (s in 1:length(sizes$mm)){

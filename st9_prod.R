@@ -142,6 +142,7 @@ JULIAN <- julian(month, day, year, origin=c(month = 12, day = 31, year = 2005))
 st9_bugs <- data.frame(st9_bugs[,1:2], JULIAN, st9_bugs[,3:(dim(st9_bugs)[2])], check.names = F)
 st9_bugs = as.data.frame(unclass(st9_bugs))
 
+saveRDS(st9_bugs, file = "st9_bugs.rda")
 
 ## Define fuctions stored in separate scripts
 
@@ -166,20 +167,24 @@ st9_tempint = st9_temp[c(3:7,10:11,13:14),]
 ##Import taxa info:
  #L-M parameter, method of production, growth parameters, cpi's, p/b's, etc. for each taxon:
 #tax = read.table(file = "./SFS code/st9_taxa_info_LISA.txt", header = T, sep = "\t", quote = "", strip.white = T)
-tax = read.table(file = "./SFS code/st9_taxa_info_LISA.txt", header = T, sep = "\t", quote = "", strip.white = T) #this is an updated file for l. riparia growth rates. 
+#tax = read.table(file = "./SFS code/st9_taxa_info_LISA_mod.txt", header = T, sep = "\t", quote = "", strip.white = T) #this is an updated file for l. riparia growth rates. 
+tax = read.table(file = "./SFS code/st9_taxa_info_LISA_mod.txt", header = T, sep = "\t", quote = "", strip.white = T) #this is an updated file for l. riparia growth rates. 
 colnames(tax) = c("TAXON", 	"METHOD", 	"LM.a", "LM.b",	"LM.p.ash",	"g.a",	"g.b",	"g.c",	"g.d",	"min.cpi",	"max.cpi",	"num.size.classes",	"p.b",	"Growth.equation", 	"min.growth",	"notes")
 #source("C:/Users/Jim/Documents/Projects/Talk/SFS 2017/SFS2017/R Secondary Production-GC Example/Scripts/wrapper.site.yr_function.txt")
 set.seed(123)
 st9.out = wrapper.site.yr(DATA = st9_bugs, site = "ST9", habitat = "COBBLE", TEMP.COB = st9_temp1, TEMP.DEP = st9_temp1, TEMP.TAL = st9_temp1, first.date = "07/01/11", last.date = "06/19/12",
                            TAXA = tax, temp.corr.igr.cob = c(1,1,1,1,1,1,1,1,1), temp.corr.igr.dep = c(1,1,1,1,1,1,1,1,1), temp.corr.igr.tal = c(1,1,1,1,1,1,1,1,1), wrap = T, boot.num = 50)
 
+saveRDS(st9.out, file = "st9_out.rda")
 names(st9.out)
 st9.out$Pintboots.cob
 colSums(st9.out$Pintboots.cob, na.rm = T)
-Stream = rep("ST9", length(st14_temp1))
 
+Stream = rep("ST9", length(st9_temp1))
 st9.int = data.frame(Stream, st9_tempint, colSums(st9.out$Pintboots.cob, na.rm = T))
-colnames(st9.int) = c("Stream", "Month", "Temperature", "Production")
+colnames(st9.int) = c("Stream", "month", "Temperature", "Production")
+saveRDS(st9.int, file = "st9.int.rda")
+
 sum(colSums(st9.out$Pintboots.cob, na.rm = T))
 ## This finally fucking worked!! woohoo. 
 # Now work with hver.out$Pboots.cob to get the mean summed community production annually
@@ -200,18 +205,37 @@ df[is.na(df)]<- 0
 plot(log(df[,1]), log(df[,2]))
 abline(a = 0, b = 1)
 
-st9.spp.ann.prod = data.frame(apply(st9.prod, 2, mean, na.rm = T))
+#st9.spp.ann.prod = data.frame(apply(st9.prod, 2, mean, na.rm = T))
 colnames(st9.spp.ann.prod) = "Mean.Annual.Prod"
 st9.spp.ann.prod$Species = rownames(st9.spp.ann.prod)
-st9.spp.ann.prod$Species.rank = reorder(st9.spp.ann.prod$Species, -st9.spp.ann.prod$Mean.Annual.Prod)
+st9.spp.ann.prod$Species.rank = reorder(st9.spp.ann.prod$Species,  -st9.spp.ann.prod$Mean.Annual.Prod)
+st9.spp.ann.prod$spp.rank = seq(1,length(st9.spp.ann.prod$Species.rank), length = length(st9.spp.ann.prod$Species.rank))
+st9.spp.ann.prod$spp.rank = reorder(st9.spp.ann.prod$spp.rank,  -st9.spp.ann.prod$Mean.Annual.Prod)
+#st9.spp.ann.prod$Species.rank = reorder(st9.spp.ann.prod$Species, -st9.spp.ann.prod$Mean.Annual.Prod)
+st9.spp.ann.prod[which(st9.spp.ann.prod$Mean.Annual.Prod == 0),] <- NA
+st9.spp.ann.prod = st9.spp.ann.prod[! is.na(st9.spp.ann.prod$spp.rank),]
+st9.spp.ann.prod = st9.spp.ann.prod %>% mutate(spp.rank = dense_rank(-Mean.Annual.Prod))
 
-ggplot(st9.spp.ann.prod, aes(x = Species.rank, y = Mean.Annual.Prod)) + geom_point(size = 2) +
+saveRDS(st9.spp.ann.prod, file = "st9.spp.ann.prod.rda")
+
+ggplot(st9.spp.ann.prod %>% arrange(spp.rank), aes(x = spp.rank, y = log(Mean.Annual.Prod))) + geom_point(size = 2) + geom_path(aes(group = 1), size = 1.5) +
+  ylab("ln(Annual production [mg m-2 yr-1])") +  theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust = 1), axis.title.x = element_blank())
+
+
+
+#remove species from list
+spp.rem = c("Homoptera", "Clinocera pupa", "Limnophora pupa", "Midge pupa", "slug", "Snail egg", "Thrips", "Limnophora egg", "Limnophora pupa", "S. vittatum pupa" )
+st9.spp.ann.prod = st9.spp.ann.prod[! st9.spp.ann.prod$Species.rank %in% spp.rem,]
+
+ggplot(st9.spp.ann.prod %>% arrange(spp.rank), aes(x = Species.rank, y = log(Mean.Annual.Prod))) + geom_point(size = 2) + geom_path(aes(group = 1), size = 2) +
+  ylab("Annual production [mg m-2 yr-2]") +  theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust = 1), axis.title.x = element_blank())
+# This works awesomely!! git'r done for others.
+
+
+ggplot(st9.spp.ann.prod, aes(x = spp.rank, y = log(Mean.Annual.Prod), group = 1)) + geom_point(size = 2) + geom_path() +
   ylab("Annual production [mg m-2 yr-2]") +  theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust = 1), axis.title.x = element_blank())
 
 mean(st9.ann.prod)  #2393    #pulls the mean community production estimate
 mean(st9.ann.bio)   #447    #pulls mean community biomass estimate
 mean(st9.ann.prod)/mean(st9.ann.bio)  #5.35   #annual p/b
-
-##This pulls out biomass and abundance data for each taxa at each interval
-sampinfo.site.yr(DATA = hver_bugs, site = "Hver", first.date = "08/02/11", last.date = "07/26/12", habitat = "COBBLE", TAXA = tax)
 

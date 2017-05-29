@@ -5,18 +5,18 @@ $Psampest
 [1] NA
 
 $Pbootest
-     Mean      2.5%       50%     97.5% 
-0.3719515 0.0000000 0.0000000 2.4058328 
+    Mean     2.5%      50%    97.5% 
+1.427958 0.000000 0.000000 9.238160 
 
 $Pboots
- [1] 0.00000000 1.69832921 0.47821553 0.00000000 0.02259087 0.00000000 0.00000000
- [8] 0.00000000 0.00000000 2.26999495 0.00000000 0.02259087 0.00000000 0.00000000
-[15] 0.00000000 0.00000000 0.09036347 0.00000000 0.00000000 3.28343757 0.00000000
-[22] 0.55736843 0.00000000 2.31924465 0.00000000 0.00000000 0.00000000 0.00000000
-[29] 2.43097134 0.30146461 2.31924465 0.62716229 0.00000000 0.41461007 0.02259087
-[36] 0.00000000 0.12894847 0.00000000 0.02259087 0.00000000 0.00000000 0.02259087
-[43] 0.00000000 0.00000000 1.15846225 0.00000000 0.00000000 0.00000000 0.00000000
-[50] 0.40680447
+ [1]  0.00000000  6.54094858  1.84254240  0.00000000  0.08726347  0.00000000  0.00000000
+ [8]  0.00000000  0.00000000  8.70516444  0.00000000  0.08726347  0.00000000  0.00000000
+[15]  0.00000000  0.00000000  0.34905387  0.00000000  0.00000000 12.60478332  0.00000000
+[22]  2.14780384  0.00000000  8.87384623  0.00000000  0.00000000  0.00000000  0.00000000
+[29]  9.34392820  1.16167922  8.87384623  2.41538694  0.00000000  1.59608807  0.08726347
+[36]  0.00000000  0.49773337  0.00000000  0.08726347  0.00000000  0.00000000  0.08726347
+[43]  0.00000000  0.00000000  4.44118144  0.00000000  0.00000000  0.00000000  0.00000000
+[50]  1.56760536
 
 $Bboots
  [1] 0.000000000 0.225208206 0.071905828 0.000000000 0.005826235 0.000000000 0.000000000
@@ -48,57 +48,57 @@ $Pintsampest
 [1] NA NA NA NA NA NA NA NA NA
 
 $Pintboots
-           [,1]     [,2]      [,3]      [,4]      [,5]       [,6]      [,7] [,8] [,9]
- [1,]        NA       NA        NA        NA        NA         NA        NA   NA   NA
- [2,]        NA       NA        NA        NA 1.6983292         NA        NA   NA   NA
- [3,]        NA       NA        NA        NA 0.4104429 0.06777260        NA   NA   NA
- [4,]        NA       NA        NA        NA        NA         NA        NA   NA   NA
- [5,]        NA       NA        NA        NA        NA 0.02259087        NA   NA   NA
- [6,]        NA       NA        NA        NA        NA         NA        NA   NA   NA
- [7,]        NA       NA        NA        NA        NA         NA        NA   NA   NA
- [8,]        NA       NA        NA        NA        NA         NA        NA   NA   NA
- [9,]        NA       NA        NA        NA        NA         NA        NA   NA   NA
-[10,] 1.5461631       NA        NA 0.7238319        NA         NA        NA   NA   NA
-[11,]        NA       NA        NA        NA        NA         NA        NA   NA   NA
-[12,] 0.0000000       NA        NA        NA        NA 0.02259087        NA   NA   NA
-[13,]        NA       NA        NA        NA        NA         NA        NA   NA   NA
-[14,]        NA       NA        NA        NA        NA 0.00000000        NA   NA   NA
-[15,]        NA       NA        NA        NA        NA         NA        NA   NA   NA
-[16,]        NA       NA        NA        NA        NA         NA        NA   NA   NA
-[17,]        NA       NA        NA        NA        NA 0.09036347        NA   NA   NA
-[18,]        NA       NA        NA        NA        NA         NA        NA   NA   NA
-[19,]        NA       NA        NA        NA        NA         NA        NA   NA   NA
-[20,]        NA 2.316924        NA        NA 0.9665131         NA        NA   NA   NA
-[21,]        NA       NA        NA        NA        NA         NA        NA   NA   NA
-[22,]        NA       NA        NA 0.5573684        NA         NA        NA   NA   NA
-[23,]        NA       NA        NA        NA        NA 0.00000000        NA   NA   NA
-[24,] 2.3192447       NA        NA        NA        NA         NA        NA   NA   NA
-[25,]        NA       NA        NA        NA        NA         NA        NA   NA   NA
-[26,]        NA       NA        NA        NA        NA         NA        NA   NA   NA
-[27,]        NA       NA        NA        NA        NA         NA        NA   NA   NA
-[28,]        NA       NA        NA        NA        NA         NA        NA   NA   NA
-[29,] 0.7730816       NA        NA        NA 1.5901172 0.06777260        NA   NA   NA
-[30,]        NA       NA        NA 0.3014646        NA         NA        NA   NA   NA
-[31,] 2.3192447       NA        NA        NA        NA         NA        NA   NA   NA
-[32,]        NA       NA 0.3512068 0.2759555        NA         NA        NA   NA   NA
-[33,]        NA       NA        NA        NA        NA         NA        NA   NA   NA
-[34,]        NA       NA 0.4146101        NA        NA         NA        NA   NA   NA
-[35,]        NA       NA        NA        NA        NA 0.02259087        NA   NA   NA
-[36,]        NA       NA        NA        NA        NA         NA        NA   NA   NA
-[37,]        NA       NA        NA        NA        NA         NA 0.1289485   NA   NA
-[38,]        NA       NA        NA        NA        NA         NA        NA   NA   NA
-[39,]        NA       NA        NA        NA        NA 0.02259087        NA   NA   NA
-[40,]        NA       NA        NA        NA        NA         NA        NA   NA   NA
-[41,]        NA       NA        NA        NA        NA         NA        NA   NA   NA
-[42,]        NA       NA        NA        NA        NA 0.02259087        NA   NA   NA
-[43,]        NA       NA        NA        NA        NA         NA        NA   NA   NA
-[44,]        NA       NA        NA        NA        NA         NA        NA   NA   NA
-[45,]        NA 1.158462        NA        NA        NA         NA        NA   NA   NA
-[46,]        NA       NA        NA        NA        NA         NA        NA   NA   NA
-[47,]        NA       NA        NA        NA        NA         NA        NA   NA   NA
-[48,]        NA       NA        NA        NA        NA         NA        NA   NA   NA
-[49,]        NA       NA        NA        NA        NA         NA        NA   NA   NA
-[50,]        NA       NA        NA 0.4068045        NA         NA        NA   NA   NA
+          [,1]     [,2]     [,3]     [,4]     [,5]       [,6]      [,7] [,8] [,9]
+ [1,]       NA       NA       NA       NA       NA         NA        NA   NA   NA
+ [2,]       NA       NA       NA       NA 6.540949         NA        NA   NA   NA
+ [3,]       NA       NA       NA       NA 1.580752 0.26179041        NA   NA   NA
+ [4,]       NA       NA       NA       NA       NA         NA        NA   NA   NA
+ [5,]       NA       NA       NA       NA       NA 0.08726347        NA   NA   NA
+ [6,]       NA       NA       NA       NA       NA         NA        NA   NA   NA
+ [7,]       NA       NA       NA       NA       NA         NA        NA   NA   NA
+ [8,]       NA       NA       NA       NA       NA         NA        NA   NA   NA
+ [9,]       NA       NA       NA       NA       NA         NA        NA   NA   NA
+[10,] 5.915897       NA       NA 2.789267       NA         NA        NA   NA   NA
+[11,]       NA       NA       NA       NA       NA         NA        NA   NA   NA
+[12,] 0.000000       NA       NA       NA       NA 0.08726347        NA   NA   NA
+[13,]       NA       NA       NA       NA       NA         NA        NA   NA   NA
+[14,]       NA       NA       NA       NA       NA 0.00000000        NA   NA   NA
+[15,]       NA       NA       NA       NA       NA         NA        NA   NA   NA
+[16,]       NA       NA       NA       NA       NA         NA        NA   NA   NA
+[17,]       NA       NA       NA       NA       NA 0.34905387        NA   NA   NA
+[18,]       NA       NA       NA       NA       NA         NA        NA   NA   NA
+[19,]       NA       NA       NA       NA       NA         NA        NA   NA   NA
+[20,]       NA 8.882363       NA       NA 3.722420         NA        NA   NA   NA
+[21,]       NA       NA       NA       NA       NA         NA        NA   NA   NA
+[22,]       NA       NA       NA 2.147804       NA         NA        NA   NA   NA
+[23,]       NA       NA       NA       NA       NA 0.00000000        NA   NA   NA
+[24,] 8.873846       NA       NA       NA       NA         NA        NA   NA   NA
+[25,]       NA       NA       NA       NA       NA         NA        NA   NA   NA
+[26,]       NA       NA       NA       NA       NA         NA        NA   NA   NA
+[27,]       NA       NA       NA       NA       NA         NA        NA   NA   NA
+[28,]       NA       NA       NA       NA       NA         NA        NA   NA   NA
+[29,] 2.957949       NA       NA       NA 6.124189 0.26179041        NA   NA   NA
+[30,]       NA       NA       NA 1.161679       NA         NA        NA   NA   NA
+[31,] 8.873846       NA       NA       NA       NA         NA        NA   NA   NA
+[32,]       NA       NA 1.352004 1.063383       NA         NA        NA   NA   NA
+[33,]       NA       NA       NA       NA       NA         NA        NA   NA   NA
+[34,]       NA       NA 1.596088       NA       NA         NA        NA   NA   NA
+[35,]       NA       NA       NA       NA       NA 0.08726347        NA   NA   NA
+[36,]       NA       NA       NA       NA       NA         NA        NA   NA   NA
+[37,]       NA       NA       NA       NA       NA         NA 0.4977334   NA   NA
+[38,]       NA       NA       NA       NA       NA         NA        NA   NA   NA
+[39,]       NA       NA       NA       NA       NA 0.08726347        NA   NA   NA
+[40,]       NA       NA       NA       NA       NA         NA        NA   NA   NA
+[41,]       NA       NA       NA       NA       NA         NA        NA   NA   NA
+[42,]       NA       NA       NA       NA       NA 0.08726347        NA   NA   NA
+[43,]       NA       NA       NA       NA       NA         NA        NA   NA   NA
+[44,]       NA       NA       NA       NA       NA         NA        NA   NA   NA
+[45,]       NA 4.441181       NA       NA       NA         NA        NA   NA   NA
+[46,]       NA       NA       NA       NA       NA         NA        NA   NA   NA
+[47,]       NA       NA       NA       NA       NA         NA        NA   NA   NA
+[48,]       NA       NA       NA       NA       NA         NA        NA   NA   NA
+[49,]       NA       NA       NA       NA       NA         NA        NA   NA   NA
+[50,]       NA       NA       NA 1.567605       NA         NA        NA   NA   NA
 
 $Bdatesampinfo
       DATE JULIAN N Mean Stdev

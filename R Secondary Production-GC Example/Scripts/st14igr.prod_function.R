@@ -67,7 +67,7 @@
         int.N <- rbind(int.N, (int.N[1,] + int.N[(dim(int.N)[1]),])/2)	#Add a row to represent interval abundance for an additional, final interval (use the mean interval abundance of the first and last date to get the abundance for the last interval)
       }
       int.P <- matrix(0, length(t.int), length(sizes$mm))
-      if (taxon == "Midge 1" | taxon == "Midge 2" | taxon == "Midge 3" | taxon == "Midge 3-2" | taxon == "Tanypodinae" | taxon == "ST9 Midge 4" |
+      if (taxon == "Midge 1" | taxon == "Midge 2" | taxon == "Midge 3" | taxon == "Midge 3-2" | taxon == "Tanypodinae" | taxon == "ST9 Midge 4" | taxon == "Ceratopegonid" |
           taxon == "Midge 4" | taxon == "Midge 5" | taxon == "Midge 6" | taxon == "Midge 7" | taxon == "Midge 8" | taxon == "Orthocladius" | taxon == "Thienemanniella sp." | taxon == "Midge indet." | taxon == "Orthocladius"){
         for (s in 1:length(sizes$mm)){
           for (d in 1:length(t.int)){
@@ -105,7 +105,7 @@
         }
       }
       else if (taxon == "Tub. 1" | taxon == "Tub. 2"| taxon == "S. vittatum" | taxon == "S. indet" |taxon == "Ostracod" | taxon == "Oribatid 1" | taxon == "Leech" | taxon == "Nematode" | taxon == "Sperchon sp." | taxon == "Lumb 3" | taxon == "Springtail" | taxon =="Clinocera" |
-               taxon == "Antocha sp." | taxon == "Oribatid 2" |taxon == "Ephydridae sp." | taxon == "Oligochaeta indet." | taxon == "Potamaphylax" | taxon == "Tub. 2" | taxon == "Prosimulium" | taxon == "S. vernum" | taxon == "S. aurem"){
+               taxon == "Antocha sp." | taxon == "Oribatid 2" |taxon == "Ephydridae sp." | taxon == "Oligochaeta indet." | taxon == "Potamaphylax" | taxon == "Tub. 2" | taxon == "Prosimulium" | taxon == "S. vernum" | taxon == "S. aurem" | taxon == "Oribatid 3" | taxon == "Red Mite"){
         for (s in 1:length(sizes$mm)){
           for (d in 1:length(t.int)){
             if ((g.a + (g.b*TEMP[d]) + (g.c * sizes$AFDM[s])) > 0){
@@ -170,7 +170,7 @@
           int.N <- rbind(int.N, (int.N[1,] + int.N[(dim(int.N)[1]),])/2)		#Add a row to represent interval abundance for an additional, final interval (use the mean interval abundance of the first and last date to get the abundance for the last interval)
         }
         int.P <- matrix(0, length(t.int), length(sizes$mm))
-        if (taxon == "Midge 1" | taxon == "Midge 2" | taxon == "Midge 3" | taxon == "Midge 3-2" | taxon == "Tanypodinae" | taxon == "ST9 Midge 4" |
+        if (taxon == "Midge 1" | taxon == "Midge 2" | taxon == "Midge 3" | taxon == "Midge 3-2" | taxon == "Tanypodinae" | taxon == "ST9 Midge 4" | taxon == "Ceratopegonid" |
             taxon == "Midge 4" | taxon == "Midge 5" | taxon == "Midge 6" | taxon == "Midge 7" | taxon == "Midge 8" | taxon == "Orthocladius" | taxon == "Thienemanniella sp." | taxon == "Midge indet."){
         for (s in 1:length(sizes$mm)){
           for (d in 1:length(t.int)){
@@ -220,7 +220,7 @@
           }
         }
         else if (taxon == "Tub. 1" | taxon == "Tub. 2" | taxon == "S. vittatum" | taxon == "S. indet" |taxon == "Ostracod" | taxon == "Oribatid 1" | taxon == "Leech" | taxon == "Nematode" | taxon == "Sperchon sp." | taxon == "Lumb 3" | taxon == "Springtail" | taxon =="Clinocera" |
-                 taxon == "Antocha sp." | taxon == "Oribatid 2" |taxon == "Ephydridae sp." | taxon == "Oligochaeta indet." | taxon == "Potamaphylax" | taxon == "Tub. 2" | taxon == "Prosimulium" | taxon == "S. vernum" | taxon == "S. aurem"){
+                 taxon == "Antocha sp." | taxon == "Oribatid 2" |taxon == "Ephydridae sp." | taxon == "Oligochaeta indet." | taxon == "Potamaphylax" | taxon == "Tub. 2" | taxon == "Prosimulium" | taxon == "S. vernum" | taxon == "S. aurem"| taxon == "Oribatid 3" | taxon == "Red Mite"){
         for (s in 1:length(sizes$mm)){
           for (d in 1:length(t.int)){
             if ((g.a + g.b*TEMP[d] + g.c * sizes$AFDM[s]) > 0){

@@ -72,6 +72,7 @@ JULIAN <- julian(month, day, year, origin=c(month = 12, day = 31, year = 2005))
 st6_bugs <- data.frame(st6_bugs[,1:2], JULIAN, st6_bugs[,3:(dim(st6_bugs)[2])], check.names = F)
 st6_bugs = as.data.frame(unclass(st6_bugs))
 
+saveRDS(st6_bugs, file = "st6_bugs.rda")
 
 ## Define fuctions stored in separate scripts
 
@@ -96,7 +97,8 @@ st6_tempint = st6_temp[c(4:6,8:11,13:14),]
 ##Import taxa info:
  #L-M parameter, method of production, growth parameters, cpi's, p/b's, etc. for each taxon:
 #tax = read.table(file = "./SFS code/st6_taxa_info_LISA.txt", header = T, sep = "\t", quote = "", strip.white = T)
-tax = read.table(file = "./SFS code/st6_taxa_info_LISA_mod.txt", header = T, sep = "\t", quote = "", strip.white = T) #this is an updated file for l. riparia growth rates. 
+#tax = read.table(file = "./SFS code/st6_taxa_info_LISA_mod.txt", header = T, sep = "\t", quote = "", strip.white = T) #this is an updated file for l. riparia growth rates. 
+tax = read.table(file = "./SFS code/st6_taxa_info_LISA_mod2.txt", header = T, sep = "\t", quote = "", strip.white = T) #this is an updated file for l. riparia growth rates. 
 
 colnames(tax) = c("TAXON", 	"METHOD", 	"LM.a", "LM.b",	"LM.p.ash",	"g.a",	"g.b",	"g.c",	"g.d",	"min.cpi",	"max.cpi",	"num.size.classes",	"p.b",	"Growth.equation", 	"min.growth",	"notes")
 #source("C:/Users/Jim/Documents/Projects/Talk/SFS 2017/SFS2017/R Secondary Production-GC Example/Scripts/wrapper.site.yr_function.txt")
@@ -104,13 +106,16 @@ colnames(tax) = c("TAXON", 	"METHOD", 	"LM.a", "LM.b",	"LM.p.ash",	"g.a",	"g.b",
 st6.out = wrapper.site.yr(DATA = st6_bugs, site = "ST6", habitat = "COBBLE", TEMP.COB = st6_temp1, TEMP.DEP = st6_temp1, TEMP.TAL = st6_temp1, first.date = "08/02/11", last.date = "06/19/12",
                            TAXA = tax, temp.corr.igr.cob = c(1,1,1,1,1,1,1,1,1), temp.corr.igr.dep = c(1,1,1,1,1,1,1,1,1), temp.corr.igr.tal = c(1,1,1,1,1,1,1,1,1), wrap = T, boot.num = 50)
 
+saveRDS(st6.out, file = "st6_out.rda")
 names(st6.out)
 st6.out$Pintboots.cob
 colSums(st6.out$Pintboots.cob, na.rm = T)
-Stream = rep("ST6", length(st6_temp1))
 
+Stream = rep("ST6", length(st6_temp1))
 st6.int = data.frame(Stream, st6_tempint, colSums(st6.out$Pintboots.cob, na.rm = T))
-colnames(st6.int) = c("Stream", "Month", "Temperature", "Production")
+colnames(st6.int) = c("Stream", "month", "Temperature", "Production")
+saveRDS(st6.int, file = "st6.int.rda")
+
 sum(colSums(st6.out$Pintboots.cob, na.rm = T))
 ## This finally fucking worked!! woohoo. 
 # Now work with hver.out$Pboots.cob to get the mean summed community production annually
@@ -131,11 +136,26 @@ df[is.na(df)]<- 0
 plot(log(df[,1]), log(df[,2]))
 abline(a = 0, b = 1)
 
-st6.spp.ann.prod = data.frame(apply(st6.prod, 2, mean, na.rm = T))
+#st6.spp.ann.prod = data.frame(apply(st6.prod, 2, mean, na.rm = T))
 colnames(st6.spp.ann.prod) = "Mean.Annual.Prod"
 st6.spp.ann.prod$Species = rownames(st6.spp.ann.prod)
 st6.spp.ann.prod$Species.rank = reorder(st6.spp.ann.prod$Species, -st6.spp.ann.prod$Mean.Annual.Prod)
+st6.spp.ann.prod$spp.rank = seq(1, length(st6.spp.ann.prod$Species.rank), length = length(st6.spp.ann.prod$Species.rank))
+st6.spp.ann.prod$spp.rank = reorder(st6.spp.ann.prod$spp.rank, - st6.spp.ann.prod$Mean.Annual.Prod)
+st6.spp.ann.prod[which(st6.spp.ann.prod$Mean.Annual.Prod == 0),] <- NA
+st6.spp.ann.prod = st6.spp.ann.prod[! is.na(st6.spp.ann.prod$spp.rank),]
+st6.spp.ann.prod = st6.spp.ann.prod %>% mutate(spp.rank = dense_rank(-Mean.Annual.Prod))
 
+saveRDS(st6.spp.ann.prod, file = "st6.spp.ann.prod.rda")
+
+ggplot(st6.spp.ann.prod %>% arrange(spp.rank), aes(x = spp.rank, y = log(Mean.Annual.Prod))) + geom_point(size = 2) + geom_path(aes(group = 1), size = 1.5) +
+  ylab("ln(Annual production [mg m-2 yr-1])") +  theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust = 1), axis.title.x = element_blank())
+
+ggplot(st6.spp.ann.prod %>% arrange(spp.rank), aes(x = Species.rank, y = log(Mean.Annual.Prod))) + geom_point(size = 2) + geom_path(aes(group = 1), size = 1.5) +
+  ylab("ln(Annual production [mg m-2 yr-1])") +  theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust = 1), axis.title.x = element_blank())
+
+
+#####
 ggplot(st6.spp.ann.prod, aes(x = Species.rank, y = log(Mean.Annual.Prod))) + geom_point(size = 2) +
   ylab("ln(Annual production [mg m-2 yr-2])") +  theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust = 1), axis.title.x = element_blank())
 
